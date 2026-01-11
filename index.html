@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chris Wu</title>
+    <link rel="stylesheet" href="chriswu.css">
+    <script src="chriswu.js"></script>
+</head>
+<body class="home-page">
+    <nav class="navbar">
+        <a href="index.html" class="navbar-logo-link">
+            <span class="navbar-logo">CHRIS WU</span>
+        </a>
+        <button class="navbar-toggle" aria-label="Toggle navigation">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </button>
+        <ul class="navbar-links">
+            <li><a href="work.html">[ work ]</a></li>
+        </ul>
+        <a href="mailto:chris0651@gmail.com" class="navbar-email">[ email ]</a>
+    </nav>
+    
+    <section id="pintrest" class="gallery-section">
+        <div class="gallery">
+            <img src="images/poster/Poster-1.jpg" alt="Poster 1">
+            <img src="images/poster/Poster-2.jpg" alt="Poster 2">
+            <img src="images/poster/Poster-3.jpg" alt="Poster 3">
+            <img src="images/poster/Poster-4.jpg" alt="Poster 4">
+            <img src="images/poster/Poster-5.jpg" alt="Poster 5">
+            <img src="images/poster/Poster-6.jpg" alt="Poster 6">
+            <img src="images/poster/Poster-7.jpg" alt="Poster 7">
+            <img src="images/poster/Poster-8.jpg" alt="Poster 8">
+            <img src="images/poster/Poster-9.jpg" alt="Poster 9">
+            <img src="images/poster/Poster-10.jpg" alt="Poster 10">
+            <img src="images/poster/Poster-11.jpg" alt="Poster 11">
+            <img src="images/poster/Poster-12.jpg" alt="Poster 12">
+            <img src="images/poster/Poster-13.jpg" alt="Poster 13">
+            <img src="images/poster/Poster-14.jpg" alt="Poster 14">
+            <img src="images/poster/Poster-15.jpg" alt="Poster 15">
+            <img src="images/poster/Poster-16.jpg" alt="Poster 16">
+            <img src="images/poster/Poster-17.jpg" alt="Poster 17">
+            <img src="images/poster/Poster-18.jpg" alt="Poster 18">
+            <img src="images/poster/Poster-19.jpg" alt="Poster 19">
+            <img src="images/poster/Poster-20.jpg" alt="Poster 20">
+            <img src="images/poster/Poster-21.jpg" alt="Poster 21">
+            <img src="images/poster/Poster-22.jpg" alt="Poster 22">
+            <img src="images/poster/Poster-23.jpg" alt="Poster 23">
+            <img src="images/poster/Poster-24.jpg" alt="Poster 24">
+            <img src="images/poster/Poster-25.jpg" alt="Poster 25">
+            <img src="images/poster/Poster-26.jpg" alt="Poster 26">
+            <img src="images/poster/Poster-27.jpg" alt="Poster 27">
+            <img src="images/poster/Poster-28.jpg" alt="Poster 28">
+            <img src="images/poster/Poster-29.jpg" alt="Poster 29">
+            <img src="images/poster/Poster-30.jpg" alt="Poster 30">
+            <img src="images/poster/Poster-31.jpg" alt="Poster 31">
+            <img src="images/poster/Poster-32.jpg" alt="Poster 32">
+            <img src="images/poster/Poster-33.jpg" alt="Poster 33">
+            <img src="images/poster/Poster-34.jpg" alt="Poster 34">
+            <img src="images/poster/Poster-35.jpg" alt="Poster 35">
+        </div>
+    </section>
+    <div id="image-modal" class="image-modal">
+        <div class="modal-backdrop"></div>
+        <img id="modal-img" class="modal-img" src="" alt="Enlarged Poster">
+        <button id="modal-close" class="modal-close" aria-label="Close">&times;</button>
+    </div>
+    
+    <script>
+    // Simple modal logic: enlarge image and blur background
+    const galleryImages = document.querySelectorAll('.gallery img');
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalClose = document.getElementById('modal-close');
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+
+    function openModal(img) {
+        modal.classList.add('active');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        document.body.style.overflow = 'hidden';
+    }
+    function closeModal() {
+        modal.classList.remove('active');
+        modalImg.src = '';
+        modalImg.alt = '';
+        document.body.style.overflow = '';
+    }
+    galleryImages.forEach(img => {
+        img.addEventListener('click', () => openModal(img));
+    });
+    modalClose.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeModal();
+    });
+    </script>
+    
+    <div class="running-banner">
+        <div class="banner-content">
+            THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · 
+        </div>
+        <div class="banner-content">
+            THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · 
+        </div>
+    </div>
+</body>
+</html>
+

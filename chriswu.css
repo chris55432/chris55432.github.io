@@ -571,7 +571,7 @@ button,
     width: 100vw;
     height: calc(100vh - clamp(30px, 6vw, 90px));
     max-width: none;
-    padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) 0 clamp(10px, 1vw, 20px);
+    padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px);
     box-sizing: border-box;
     position: fixed;
     left: 0;
