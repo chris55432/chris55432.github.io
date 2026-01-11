@@ -1,0 +1,1183 @@
+/* Basic CSS styles */
+body {
+    font-family: 'Neue Haas Display Medium', Arial, Helvetica, sans-serif;
+    background-color: #fffafa;
+    margin: 0;
+    padding: 0;
+    display: block;
+    width: 100vw;
+    box-sizing: border-box;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23333'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+* {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23333'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-top: 40px;
+}
+
+p {
+    color: #555;
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.navbar {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    max-width: none;
+    background: transparent;
+    border-bottom: none;
+    z-index: 1000;
+    padding: clamp(10px, 1vw, 20px) clamp(10px, 1vw, 20px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    margin-left: calc(50% - 50vw);
+}
+
+.navbar-logo {
+    font-family: 'Neue Haas Display Medium', Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 20px;
+    letter-spacing: 0.01em;
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.navbar-links {
+    list-style: none;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: flex-end;
+    padding-inline-start: 20px;
+}
+
+.navbar-email {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 1em;
+    letter-spacing: 0.01em;
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-left: auto;
+    padding-left: 2em;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a:not(.navbar-email) {
+    text-decoration: none;
+    color: #333;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-weight: 300;
+    font-size: 1em;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+a:hover,
+a:hover *,
+button:hover,
+button:hover * {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+.navbar a:hover,
+.navbar a:hover *,
+.navbar-email:hover {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+.navbar-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1100;
+    padding-right: 1.7em;
+}
+
+.navbar-toggle .bar {
+    width: 28px;
+    height: 3px;
+    background: #333;
+    margin: 4px 0;
+    border-radius: 2px;
+    transition: 0.3s;
+}
+
+@font-face {
+    font-family: 'Neue Haas Display Medium';
+    src: url('font/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayMediu.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Display Light';
+    src: url('font/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayLight.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+.gallery-section {
+    width: 100vw;
+    max-width: none;
+    margin: 0;
+    padding: clamp(40px, 4vw, 80px) clamp(10px, 1vw, 20px) clamp(40px, 4vw, 80px) clamp(10px, 1vw, 20px);
+    box-sizing: border-box;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+}
+
+.gallery {
+    width: 100%;
+    column-count: 4;
+    column-gap: 1.5em;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.gallery img {
+    width: 100%;
+    margin-bottom: 1.5em;
+    border-radius: 12px;
+    display: block;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    break-inside: avoid;
+    transition: all 0.3s cubic-bezier(0.4,0.2,0.2,1);
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23333'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+.gallery img:hover {
+    transform: translateY(-4px) scale(1.02);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+    border-radius: 16px;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+}
+
+@media (max-width: 1200px) {
+    .gallery {
+        column-count: 3;
+        column-gap: 1.2em;
+    }
+}
+
+@media (max-width: 900px) {
+    .navbar {
+        padding: 1.5vw 2vw;
+        flex-wrap: wrap;
+    }
+    .navbar-logo {
+        font-size: 18px;
+        margin-left: 0;
+        padding-left: 0.3em;
+    }
+    .navbar-links {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+        gap: 0.8em;
+        text-align: left;
+        background: transparent;
+        box-shadow: none;
+        width: auto;
+    }
+    .navbar-links a {
+        text-align: left;
+        width: auto;
+        display: inline-block;
+        font-size: 0.9em;
+    }
+    .navbar-links.active {
+        display: flex;
+    }
+    .navbar-toggle {
+        display: none;
+    }
+    .navbar-email {
+        margin-left: auto;
+        padding-left: 1em;
+        font-size: 0.9em;
+    }
+    .project-links {
+        display: none;
+    }
+    .gallery {
+        column-count: 2;
+        column-gap: 1em;
+    }
+    .project-section {
+        padding: 3vw 2vw 0 2vw;
+    }
+    .project-logo h1 {
+        font-size: 28px;
+        line-height: 24px;
+    }
+    .project-description {
+        max-width: 100%;
+    }
+    .project-description p {
+        font-size: 0.9em;
+    }
+    .meta-value {
+        font-size: 32px;
+        line-height: 28px;
+    }
+    .meta-label {
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 600px) {
+    .navbar {
+        padding: 2vw 3vw clamp(20px, 4vw, 30px) 3vw;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        z-index: 1001;
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-top: none;
+        border-bottom: none;
+        justify-content: flex-end;
+    }
+    .navbar-logo-link {
+        display: none;
+    }
+    .navbar-logo {
+        display: none;
+    }
+    .navbar-links {
+        gap: 0.5em;
+        width: auto;
+        flex: 1;
+        justify-content: space-evenly;
+        margin: 0;
+        padding: 0 !important;
+        padding-inline-start: 0 !important;
+        padding-left: 0 !important;
+    }
+    .navbar-links li {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    .navbar-links a {
+        font-size: 1.3em;
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    .right-column-btn {
+        font-size: 1.3em !important;
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    .navbar-links a:not(.navbar-email) {
+        font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 1.3em;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+    }
+    .project-links a {
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    .navbar-email {
+        display: none;
+    }
+    .home-page .navbar-email {
+        display: block;
+        font-size: 1.3em;
+        padding-left: 0;
+        padding-inline-start: 0;
+    }
+    .project-links {
+        display: flex !important;
+        flex: 1;
+        justify-content: space-evenly;
+        margin: 0;
+        padding: 0 !important;
+        padding-inline-start: 0 !important;
+        padding-left: 0 !important;
+    }
+    .project-links li {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    .gallery-section {
+        padding: 6em 1vw clamp(80px, 15vw, 100px) 1vw;
+    }
+    .gallery {
+        column-count: 2;
+        column-gap: 0.8em;
+    }
+    .gallery img {
+        margin-bottom: 0.8em;
+        break-inside: avoid;
+    }
+    .project-section {
+        padding: 2vw 3vw 0 3vw;
+        height: calc(100vh - clamp(20px, 4vw, 60px));
+    }
+    .project-logo h1 {
+        font-size: 36px;
+        line-height: 32px;
+        letter-spacing: -2px;
+    }
+    .project-description p {
+        font-size: 0.85em;
+        line-height: 1.3;
+    }
+    .project-meta {
+        gap: 1em;
+    }
+    .meta-value {
+        font-size: 24px;
+        line-height: 22px;
+    }
+    .meta-label {
+        font-size: 10px;
+        margin-bottom: 0.3em;
+    }
+    .tag {
+        font-size: 11px;
+        padding: 0.2em 0.6em;
+    }
+    .tags-section {
+        gap: 6px;
+    }
+    .banner-content {
+        font-size: 0.75em;
+    }
+}
+
+.image-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.image-modal.active {
+    display: flex;
+    pointer-events: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30,30,30,0.35);
+    backdrop-filter: blur(12px);
+    z-index: 1;
+}
+
+.modal-img {
+    position: relative;
+    z-index: 2;
+    max-width: 80vw;
+    max-height: 80vh;
+    border-radius: 0;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.18);
+    animation: flyIn 0.32s cubic-bezier(0.4,0.2,0.2,1);
+    background: none;
+    transition: box-shadow 0.18s cubic-bezier(0.4,0.2,0.2,1), border-radius 0.18s cubic-bezier(0.4,0.2,0.2,1);
+}
+
+.modal-img::after {
+    content: '';
+    position: absolute;
+    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    border-radius: 0;
+    pointer-events: none;
+    background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%);
+    box-shadow: 0 0 24px 4px rgba(255,255,255,0.18);
+    z-index: 3;
+}
+
+.modal-close {
+    display: none;
+}
+
+.modal-close:hover {
+    background: rgba(255,255,255,0.95);
+}
+
+@keyframes flyIn {
+    from {
+        opacity: 0.2;
+        transform: scale(0.2) translateY(120px) translateZ(-200px) rotateX(12deg) rotateY(-8deg);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    }
+    to {
+        opacity: 2;
+        transform: scale(1) translateY(0) translateZ(0) rotateX(0) rotateY(0);
+        box-shadow: 0 12px 48px rgba(0,0,0,0.45), 0 2px 8px rgba(0,0,0,0.18);
+    }
+}
+
+button,
+.navbar a,
+.modal-close {
+    cursor: pointer;
+}
+
+/* Footer Styles */
+.footer {
+    background-color: transparent;
+    padding: 2em 0;
+    margin: 0;
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    transform: translateX(-50%);
+}
+
+.footer-content {
+    margin: 0;
+    padding: 2em 1vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1em;
+}
+
+.footer-left {
+    display: flex;
+    align-items: center;
+    gap: 1em;
+}
+
+.footer-logo {
+    height: 1.2em;
+    width: auto;
+}
+
+.footer-text {
+    color: #666;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 1.2em;
+    margin: 0;
+}
+
+.footer-right {
+    display: flex;
+    gap: 2em;
+    align-items: center;
+}
+
+.footer-links {
+    display: flex;
+    gap: 1.5em;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.footer-links a {
+    color: #666;
+    text-decoration: none;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 0.9em;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: #00ff2f;
+}
+
+.footer-social {
+    display: flex;
+    gap: 1em;
+}
+
+.footer-social a {
+    color: #666;
+    text-decoration: none;
+    font-size: 1.2em;
+    transition: color 0.2s;
+}
+
+.footer-social a:hover {
+    color: #00ff2f;
+}
+
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5em;
+    }
+    
+    .footer-left {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    
+    .footer-right {
+        flex-direction: column;
+        gap: 1em;
+    }
+    
+    .footer-links {
+        gap: 1em;
+    }
+}
+
+/* Bordered Section */
+.project-section {
+    width: 100vw;
+    height: calc(100vh - clamp(30px, 6vw, 90px));
+    max-width: none;
+    padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) 0 clamp(10px, 1vw, 20px);
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+}
+
+.column-top {
+    width: 80%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    position: relative;
+    order: 2;
+}
+
+/* Slideshow Styles */
+.slideshow-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.slideshow-wrapper {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.slide {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    cursor: inherit;
+    transform: scale(0.95);
+}
+
+.slide.active {
+    opacity: 1;
+    z-index: 1;
+}
+
+.slide-nav {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    cursor: pointer;
+    pointer-events: none;
+}
+
+.slide-nav-left {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: 0;
+}
+
+.slide-nav-left .nav-indicator {
+    margin-left: 0;
+}
+
+.slide-nav-right {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 0;
+}
+
+.slide-nav-right .nav-indicator {
+    margin-right: 0;
+}
+
+.slideshow-container:hover .slide-nav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.slideshow-container:hover .slide.active {
+    cursor: inherit;
+}
+
+.slideshow-container:hover .slide-nav-left {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 40 40, auto;
+}
+
+.slideshow-container:hover .slide-nav-right {
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 40 40, auto;
+}
+
+.nav-indicator {
+    font-size: 4rem;
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.slide-nav:hover .nav-indicator {
+    color: rgba(255, 255, 255, 1);
+    transform: scale(1.1);
+}
+
+.slideshow-back-btn {
+    display: none;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 300;
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.slideshow-back-btn:hover {
+    color: #00ff2f;
+}
+
+.column-bottom {
+    width: 20%;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0 0 0 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    order: 1;
+    position: relative;
+}
+
+.project-links {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    width: fit-content;
+    margin-left: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-inline-start: 20px;
+}
+
+.right-column-btn {
+    padding: 0;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 300;
+    color: #333;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: inline-block;
+}
+
+
+.text-section {
+    margin-top: 0;
+    width: 100%;
+    height: 100%;
+    text-align: left;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.text-section h1 {
+    font-family: 'Neue Haas Display light', Arial, Helvetica, sans-serif;
+    font-size: 1.5em;
+    font-weight: 300;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.text-section h1:first-child {
+    margin: 0;
+    padding: 0;
+}
+
+.text-section p {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 100;
+    color: #333;
+    line-height: 1.1em;
+    margin: 1em 0 1em 0;
+    text-align: left;
+}
+
+.project-content {
+    display: none;
+}
+
+.project-content.active {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.project-content-left {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0;
+}
+
+.project-content-right {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* Individual gaps for project-content elements */
+.project-logo {
+    margin-left: -2px;
+    flex-shrink: 0;
+    margin-bottom: 8px; /* Gap after logo */
+}
+
+.project-logo h1 {
+    font-family: 'Neue Haas Display 950 Black', Arial, Helvetica, sans-serif;
+    font-size: 36px;
+    letter-spacing: -3px;
+    font-weight: 950;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 30px;
+    text-align: left;
+    display: block;
+}
+
+.project-description {
+    max-width: 90%;
+    margin-bottom: 12px;
+}
+
+.project-description p {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 300;
+    color: #333;
+    line-height: 1.4;
+    margin: 0;
+    padding: 0;
+}
+
+.project-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex-shrink: 0;
+    margin-bottom: 0; /* No gap after meta (last item) */
+}
+
+/* Individual meta-item gaps */
+.meta-item:nth-child(1) {
+    margin-bottom: 1.5em; /* Gap after TAGS */
+    height: 70px
+}
+
+.meta-item:nth-child(2) {
+    margin-bottom: 1.5em; /* Gap after YEAR */
+}
+
+.meta-item:nth-child(3) {
+    margin-bottom: 1.5em; /* Gap after DURATION */
+}
+
+.meta-item:nth-child(4) {
+    margin-bottom: 0; /* No gap after WEBSITE (last item) */
+}
+
+.meta-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.meta-label {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: #050505;
+    text-transform: uppercase;
+    margin-bottom: 0.5em;
+    letter-spacing: 0.5px;
+}
+
+.meta-value {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: 300;
+    color: #333;
+    line-height: 32px;
+}
+
+.meta-value a {
+    color: #333;
+    text-decoration: none;
+}
+
+.meta-value a:hover {
+    color: #333;
+}
+
+.project-content p {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 100;
+    color: #333;
+    line-height: 19px;
+    letter-spacing: 0.3px;
+    word-spacing: 5%;
+    margin: 0 0 0 0;
+    text-align: left;
+    width: 100%;
+}
+
+.right-column-btn.active {
+    font-weight: 900;
+}
+
+.right-column-btn.active span {
+    color: #00ff2f;
+}
+
+.right-column-btn .bracket {
+    font-size: 1.5em;
+}
+
+.tags-section {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    width: 80%;
+}
+
+.tag {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    font-weight: 300;
+    color: #050505;
+    padding: 0.3em 0.8em;
+    border: 1px solid #333;
+    border-radius: 999px;
+    display: inline-block;
+    text-transform: none;
+    background-color: transparent;
+    letter-spacing: 0.05em;
+}
+
+/* Responsive adjustments for project-section */
+@media (max-width: 1200px) {
+    .project-section {
+        top: clamp(20px, 4vw, 60px);
+        height: calc(100vh - clamp(40px, 8vw, 120px));
+        padding: 3vw 2vw 0 2vw;
+    }
+    .project-logo h1 {
+        font-size: 32px;
+        line-height: 27px;
+    }
+    .meta-value {
+        font-size: 36px;
+        line-height: 30px;
+    }
+}
+
+@media (max-width: 900px) {
+    .project-section {
+        top: clamp(20px, 4vw, 60px);
+        height: calc(100vh - clamp(40px, 8vw, 120px));
+        padding: 3vw 2vw 0 2vw;
+    }
+}
+
+@media (max-width: 600px) {
+    .project-section {
+        position: relative;
+        height: auto;
+        min-height: 70vh;
+        padding: 5vw 3vw clamp(80px, 15vw, 100px) 3vw;
+        flex-direction: column;
+    }
+    
+    .column-top {
+        width: 100%;
+        padding-top: 5vh;
+        height: 70vh;
+        order: 2;
+        display: block;
+    }
+    
+    .slideshow-container {
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+    }
+    
+    .slideshow-wrapper {
+        height: 100%;
+        display: flex;
+        align-items: flex-start;
+    }
+    
+    .slide {
+        height: 100%;
+        object-position: top;
+        top: 0;
+    }
+    
+    .slideshow-back-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 2em 3vw vw 4vw;
+        font-size: 1.2em;
+        margin: 2em 0 5em 0;
+    }
+    
+    .column-bottom {
+        width: 100%;
+        height: auto;
+        padding: 0;
+        order: 1;
+        overflow: visible;
+    }
+    
+    .text-section {
+        position: relative;
+        height: auto;
+        padding-top: 1em;
+    }
+    
+    .project-content.active {
+        gap: 1em;
+        position: relative;
+        height: auto;
+        flex-direction: column;
+    }
+    
+    .project-content-left {
+        width: 100%;
+    }
+    
+    .project-content-right {
+        width: 100%;
+    }
+    
+    .project-logo {
+        display: none;
+    }
+    
+    .project-description {
+        margin-bottom: 1em;
+    }
+    
+    .project-description p {
+        font-size: 24px;
+        line-height: 28px;
+    }
+    
+    .project-description p .first-word {
+        font-family: 'Neue Haas Display 950 Black', Arial, Helvetica, sans-serif;
+        font-size: 42px;
+        font-weight: 950;
+        letter-spacing: -3px;
+        line-height: 48px;
+        display: inline-block;
+        margin-right: 0.2em;
+    }
+    
+    .project-meta {
+        flex-direction: row;
+        gap: 0.5em;
+        column-gap: 1.5em;
+        flex-wrap: wrap;
+    }
+    
+    .meta-item {
+        flex: 0 0 auto;
+        height: fit-content;
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .meta-item:first-child {
+        order: 4;
+        width: 100%;
+        height: fit-content;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .meta-item:nth-child(1),
+    .meta-item:nth-child(2),
+    .meta-item:nth-child(3),
+    .meta-item:nth-child(4) {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .meta-value {
+        font-size: 24px;
+        line-height: auto;
+        height: fit-content;
+    }
+    
+    .meta-label {
+        font-size: 10px;
+        margin-bottom: 0.3em;
+        height: fit-content;
+    }
+    
+    .tag {
+        font-size: 16px;
+        padding: 0.15em 0.5em;
+    }
+    
+    .tags-section {
+        gap: 6px;
+    }
+}
+
+/* Running Banner Styles */
+.running-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fffafa;
+    color: #333;
+    padding: 0.5em 0;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 1000;
+    border-top: 1px solid #333;
+    display: flex;
+}
+
+@media (max-width: 600px) {
+    .running-banner {
+        top: 0;
+        bottom: auto;
+        border-top: none;
+        border-bottom: 1px solid #333;
+    }
+}
+
+.banner-content {
+    display: inline-block;
+    animation: scroll-banner 30s linear infinite;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: clamp(0.7em, 0.9em, 1em);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-right: 50px;
+    white-space: nowrap;
+}
+
+.running-banner:hover .banner-content {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-banner {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
