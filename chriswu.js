@@ -264,3 +264,50 @@
         });
     });
 })();
+
+// ============================================
+// IMAGE MODAL FUNCTIONALITY
+// ============================================
+(function() {
+    'use strict';
+    
+    const galleryImages = document.querySelectorAll('.gallery img');
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+    const modalClose = document.getElementById('modal-close');
+    const modalBackdrop = document.querySelector('.modal-backdrop');
+    
+    if (!modal || !modalImg) return;
+    
+    function openModal(img) {
+        modal.classList.add('active');
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+        document.body.style.overflow = 'hidden';
+    }
+    
+    function closeModal() {
+        modal.classList.remove('active');
+        modalImg.src = '';
+        modalImg.alt = '';
+        document.body.style.overflow = '';
+    }
+    
+    galleryImages.forEach(img => {
+        img.addEventListener('click', () => openModal(img));
+    });
+    
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
+    
+    if (modalBackdrop) {
+        modalBackdrop.addEventListener('click', closeModal);
+    }
+    
+    window.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+})();

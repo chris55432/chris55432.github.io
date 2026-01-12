@@ -68,36 +68,6 @@
         <button id="modal-close" class="modal-close" aria-label="Close">&times;</button>
     </div>
     
-    <script>
-    // Simple modal logic: enlarge image and blur background
-    const galleryImages = document.querySelectorAll('.gallery img');
-    const modal = document.getElementById('image-modal');
-    const modalImg = document.getElementById('modal-img');
-    const modalClose = document.getElementById('modal-close');
-    const modalBackdrop = document.querySelector('.modal-backdrop');
-
-    function openModal(img) {
-        modal.classList.add('active');
-        modalImg.src = img.src;
-        modalImg.alt = img.alt;
-        document.body.style.overflow = 'hidden';
-    }
-    function closeModal() {
-        modal.classList.remove('active');
-        modalImg.src = '';
-        modalImg.alt = '';
-        document.body.style.overflow = '';
-    }
-    galleryImages.forEach(img => {
-        img.addEventListener('click', () => openModal(img));
-    });
-    modalClose.addEventListener('click', closeModal);
-    modalBackdrop.addEventListener('click', closeModal);
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeModal();
-    });
-    </script>
-    
     <div class="running-banner">
         <div class="banner-content">
             THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · THE WORLD IS YOURS · 

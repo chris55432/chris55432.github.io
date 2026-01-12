@@ -935,6 +935,11 @@ button,
 }
 
 @media (max-width: 600px) {
+    body {
+        padding-bottom: clamp(60px, 12vw, 80px);
+        padding-top: clamp(30px, 6vw, 50px);
+    }
+    
     .navbar {
         padding: 2vw 3vw clamp(20px, 4vw, 30px) 3vw;
         position: fixed;
@@ -945,7 +950,7 @@ button,
         -webkit-backdrop-filter: blur(3px);
         border-top: none;
         border-bottom: none;
-        justify-content: flex-end;
+        justify-content: space-between;
     }
     
     .navbar-logo-link,
@@ -962,6 +967,10 @@ button,
         padding: 0 !important;
         padding-inline-start: 0 !important;
         padding-left: 0 !important;
+    }
+    
+    .home-page .navbar-links {
+        justify-content: center;
     }
     
     .navbar-links li {
@@ -1005,6 +1014,11 @@ button,
         font-size: 1.3em;
         padding-left: 0;
         padding-inline-start: 0;
+        margin-left: 0;
+    }
+    
+    .home-page .navbar {
+        justify-content: space-between;
     }
     
     .project-links {
@@ -1024,7 +1038,7 @@ button,
     }
     
     .gallery-section {
-        padding: 6em 1vw clamp(80px, 15vw, 100px) 1vw;
+        padding: clamp(80px, 15vw, 100px) 1vw clamp(80px, 15vw, 100px) 1vw;
     }
     
     .gallery {
@@ -1076,7 +1090,7 @@ button,
         display: block;
         width: 100%;
         text-align: center;
-        padding: 2em 3vw vw 4vw;
+        padding: 2em 3vw 1vw 4vw;
         font-size: 1.2em;
         margin: 2em 0 5em 0;
     }
@@ -1184,10 +1198,12 @@ button,
     }
     
     .running-banner {
+        position: fixed;
         top: 0;
         bottom: auto;
         border-top: none;
         border-bottom: 1px solid #333;
+        z-index: 1002;
     }
     
     .banner-content {
