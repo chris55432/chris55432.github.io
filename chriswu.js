@@ -126,7 +126,8 @@
 (function() {
     'use strict';
     
-    const projects = {
+    function initProjectSwitching() {
+        const projects = {
         frnd: {
             images: [
                 'images/FRND/FRND-1.jpg',
@@ -250,19 +251,27 @@
         });
     }
     
-    const activeProjectBtn = document.querySelector('.right-column-btn.active');
-    if (activeProjectBtn && activeProjectBtn.dataset.project) {
-        switchProject(activeProjectBtn.dataset.project);
+        const activeProjectBtn = document.querySelector('.right-column-btn.active');
+        if (activeProjectBtn && activeProjectBtn.dataset.project) {
+            switchProject(activeProjectBtn.dataset.project);
+        }
+        
+        document.querySelectorAll('.right-column-btn').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (this.dataset.project) {
+                    switchProject(this.dataset.project);
+                }
+            });
+        });
     }
     
-    document.querySelectorAll('.right-column-btn').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            if (this.dataset.project) {
-                switchProject(this.dataset.project);
-            }
-        });
-    });
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initProjectSwitching);
+    } else {
+        initProjectSwitching();
+    }
 })();
 
 // ============================================
