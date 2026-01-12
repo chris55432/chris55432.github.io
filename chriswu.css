@@ -1155,6 +1155,9 @@ button,
         border-top: none;
         border-bottom: 1px solid #333;
     }
+    .banner-content {
+        font-size: clamp(0.5em, 0.65em, 0.75em);
+    }
 }
 
 .banner-content {
