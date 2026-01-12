@@ -54,9 +54,6 @@
     'use strict';
     
     let currentSlide = 0;
-    const slideshowContainer = document.querySelector('.slideshow-container');
-    const navLeft = document.querySelector('.slide-nav-left');
-    const navRight = document.querySelector('.slide-nav-right');
     
     const leftArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
     const rightArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
@@ -82,21 +79,132 @@
         showSlide(currentSlide + direction);
     }
     
-    if (navLeft) {
-        navLeft.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateSlide(-1);
-        });
-    }
+    let lastTouchTime = 0;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartTime = 0;
+    let isSlideshowTouch = false;
     
-    if (navRight) {
-        navRight.addEventListener('click', function(e) {
-            e.stopPropagation();
-            navigateSlide(1);
-        });
-    }
+    // Handle touch start to track swipe gestures
+    document.addEventListener('touchstart', function(e) {
+        const slideshowContainer = document.querySelector('.slideshow-container');
+        if (slideshowContainer && slideshowContainer.contains(e.target)) {
+            // Don't interfere with gallery images
+            if (e.target.closest('.gallery img')) return;
+            
+            // Don't track if clicking on nav buttons
+            if (e.target.closest('.slide-nav')) return;
+            
+            isSlideshowTouch = true;
+            const touch = e.touches && e.touches[0];
+            if (touch) {
+                touchStartX = touch.clientX;
+                touchStartY = touch.clientY;
+                touchStartTime = Date.now();
+            }
+        } else {
+            isSlideshowTouch = false;
+        }
+    }, { passive: true });
     
-    if (slideshowContainer) {
+    // Use event delegation on document for reliability - desktop clicks
+    document.addEventListener('click', function(e) {
+        // Skip if this was a touch event (mobile)
+        const timeSinceTouch = Date.now() - lastTouchTime;
+        if (timeSinceTouch < 300) return; // Ignore click if touch happened recently
+        
+        // Don't interfere with gallery images
+        if (e.target.closest('.gallery img')) return;
+        
+        const slideshowContainer = document.querySelector('.slideshow-container');
+        if (!slideshowContainer || !slideshowContainer.contains(e.target)) return;
+        
+        // Don't navigate if clicking on nav buttons
+        if (e.target.closest('.slide-nav')) return;
+        
+        const rect = slideshowContainer.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        if (rect.width > 0) {
+            navigateSlide(x < rect.width / 2 ? -1 : 1);
+        }
+    });
+    
+    // Touch support for mobile - swipe gestures
+    document.addEventListener('touchend', function(e) {
+        // Don't interfere with gallery images
+        if (e.target.closest('.gallery img')) return;
+        
+        const slideshowContainer = document.querySelector('.slideshow-container');
+        if (!slideshowContainer || !slideshowContainer.contains(e.target)) return;
+        
+        // Don't navigate if clicking on nav buttons
+        if (e.target.closest('.slide-nav')) return;
+        
+        if (!isSlideshowTouch) return;
+        
+        const touch = e.changedTouches && e.changedTouches[0];
+        if (!touch) return;
+        
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = Math.abs(touch.clientY - touchStartY);
+        const deltaTime = Date.now() - touchStartTime;
+        const absDeltaX = Math.abs(deltaX);
+        
+        // Determine if it's a swipe or tap
+        const isSwipe = absDeltaX > 30 && absDeltaX > deltaY && deltaTime < 500;
+        const isTap = absDeltaX < 10 && deltaY < 10;
+        
+        if (isSwipe) {
+            // Swipe detected - navigate based on direction
+            e.preventDefault();
+            lastTouchTime = Date.now();
+            
+            if (deltaX > 0) {
+                // Swipe right = previous slide
+                navigateSlide(-1);
+            } else {
+                // Swipe left = next slide
+                navigateSlide(1);
+            }
+        } else if (isTap) {
+            // Tap detected - navigate based on tap position
+            e.preventDefault();
+            lastTouchTime = Date.now();
+            
+            const rect = slideshowContainer.getBoundingClientRect();
+            if (rect.width > 0) {
+                const x = touch.clientX - rect.left;
+                navigateSlide(x < rect.width / 2 ? -1 : 1);
+            }
+        }
+        
+        isSlideshowTouch = false;
+    }, { passive: false });
+    
+    function initSlideshow() {
+        const slideshowContainer = document.querySelector('.slideshow-container');
+        const navLeft = document.querySelector('.slide-nav-left');
+        const navRight = document.querySelector('.slide-nav-right');
+        
+        if (!slideshowContainer) return;
+        
+        // Reset current slide
+        currentSlide = 0;
+        
+        if (navLeft) {
+            navLeft.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateSlide(-1);
+            });
+        }
+        
+        if (navRight) {
+            navRight.addEventListener('click', function(e) {
+                e.stopPropagation();
+                navigateSlide(1);
+            });
+        }
+        
         slideshowContainer.addEventListener('mousemove', function(e) {
             const rect = this.getBoundingClientRect();
             const x = e.clientX - rect.left;
@@ -107,17 +215,25 @@
             this.style.cursor = '';
         });
         
-        slideshowContainer.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            navigateSlide(e.clientX - rect.left < rect.width / 2 ? -1 : 1);
-        });
+        // Initialize first slide
+        const slides = slideshowContainer.querySelectorAll('.slide');
+        if (slides.length > 0) {
+            showSlide(0);
+        }
     }
     
-    // Initialize first slide
-    const slides = document.querySelectorAll('.slide');
-    if (slides.length > 0) {
-        showSlide(0);
+    // Initialize on load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSlideshow);
+    } else {
+        initSlideshow();
     }
+    
+    // Expose reinit function for project switching
+    window.reinitSlideshow = function() {
+        currentSlide = 0;
+        initSlideshow();
+    };
 })();
 
 // ============================================
@@ -239,6 +355,10 @@
                     slides.forEach(slide => slide.classList.remove('active'));
                     slides[0].classList.add('active');
                 }
+                // Reinitialize slideshow handlers
+                if (window.reinitSlideshow) {
+                    window.reinitSlideshow();
+                }
             }, 100);
         }
         
@@ -280,15 +400,56 @@
 (function() {
     'use strict';
     
-    const galleryImages = document.querySelectorAll('.gallery img');
-    const modal = document.getElementById('image-modal');
-    const modalImg = document.getElementById('modal-img');
-    const modalClose = document.getElementById('modal-close');
-    const modalBackdrop = document.querySelector('.modal-backdrop');
+    let modal, modalImg, modalClose, modalBackdrop;
     
-    if (!modal || !modalImg) return;
+    function initModal() {
+        modal = document.getElementById('image-modal');
+        modalImg = document.getElementById('modal-img');
+        modalClose = document.getElementById('modal-close');
+        modalBackdrop = document.querySelector('.modal-backdrop');
+        
+        if (!modal || !modalImg) {
+            // Retry if modal doesn't exist yet
+            setTimeout(initModal, 100);
+            return;
+        }
+        
+        if (modalClose) {
+            modalClose.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeModal();
+            });
+            modalClose.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal();
+            }, { passive: false });
+        }
+        
+        if (modalBackdrop) {
+            modalBackdrop.addEventListener('click', function(e) {
+                e.stopPropagation();
+                closeModal();
+            });
+            modalBackdrop.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeModal();
+            }, { passive: false });
+        }
+        
+        window.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+    }
     
     function openModal(img) {
+        if (!modal || !modalImg) {
+            initModal();
+            if (!modal || !modalImg) return;
+        }
         modal.classList.add('active');
         modalImg.src = img.src;
         modalImg.alt = img.alt;
@@ -296,27 +457,70 @@
     }
     
     function closeModal() {
+        if (!modal) return;
         modal.classList.remove('active');
-        modalImg.src = '';
-        modalImg.alt = '';
+        if (modalImg) {
+            modalImg.src = '';
+            modalImg.alt = '';
+        }
         document.body.style.overflow = '';
     }
     
-    galleryImages.forEach(img => {
-        img.addEventListener('click', () => openModal(img));
-    });
+    let galleryLastTouchTime = 0;
+    let galleryTouchStartX = 0;
+    let galleryTouchStartY = 0;
     
-    if (modalClose) {
-        modalClose.addEventListener('click', closeModal);
-    }
-    
-    if (modalBackdrop) {
-        modalBackdrop.addEventListener('click', closeModal);
-    }
-    
-    window.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
-            closeModal();
+    // Track touch start for gallery images
+    document.addEventListener('touchstart', function(e) {
+        const galleryImg = e.target.closest('.gallery img');
+        if (galleryImg) {
+            const touch = e.touches && e.touches[0];
+            if (touch) {
+                galleryTouchStartX = touch.clientX;
+                galleryTouchStartY = touch.clientY;
+            }
         }
-    });
+    }, { passive: true });
+    
+    // Use event delegation for gallery images - desktop clicks
+    document.addEventListener('click', function(e) {
+        // Skip if this was a touch event (mobile)
+        const timeSinceTouch = Date.now() - galleryLastTouchTime;
+        if (timeSinceTouch < 300) return; // Ignore click if touch happened recently
+        
+        const galleryImg = e.target.closest('.gallery img');
+        if (galleryImg) {
+            e.preventDefault();
+            e.stopPropagation();
+            openModal(galleryImg);
+            return false;
+        }
+    }, true); // Use capture phase
+    
+    // Touch support for mobile - gallery images
+    document.addEventListener('touchend', function(e) {
+        const galleryImg = e.target.closest('.gallery img');
+        if (galleryImg) {
+            const touch = e.changedTouches && e.changedTouches[0];
+            if (!touch) return;
+            
+            // Check if it's a tap (not a swipe)
+            const deltaX = Math.abs(touch.clientX - galleryTouchStartX);
+            const deltaY = Math.abs(touch.clientY - galleryTouchStartY);
+            if (deltaX > 10 || deltaY > 10) return; // It's a swipe, not a tap
+            
+            e.preventDefault();
+            e.stopPropagation();
+            galleryLastTouchTime = Date.now();
+            openModal(galleryImg);
+            return false;
+        }
+    }, { passive: false, capture: true });
+    
+    // Initialize modal on load
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initModal);
+    } else {
+        initModal();
+    }
 })();

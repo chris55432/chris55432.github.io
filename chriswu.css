@@ -193,7 +193,10 @@ button,
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     break-inside: avoid;
     transition: all 0.3s cubic-bezier(0.4,0.2,0.2,1);
-    cursor: var(--cursor-default);
+    cursor: var(--cursor-hover);
+    pointer-events: auto;
+    -webkit-tap-highlight-color: rgba(0, 255, 47, 0.2);
+    touch-action: manipulation;
 }
 
 .gallery img:hover {
@@ -201,6 +204,10 @@ button,
     box-shadow: 0 8px 32px rgba(0,0,0,0.15);
     border-radius: 16px;
     cursor: var(--cursor-hover);
+}
+
+.gallery img:active {
+    transform: translateY(-2px) scale(1.01);
 }
 
 /* ============================================
@@ -247,6 +254,10 @@ button,
     animation: flyIn 0.32s cubic-bezier(0.4,0.2,0.2,1);
     background: none;
     transition: box-shadow 0.18s cubic-bezier(0.4,0.2,0.2,1), border-radius 0.18s cubic-bezier(0.4,0.2,0.2,1);
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .modal-img::after {
@@ -412,6 +423,8 @@ button,
     height: 100%;
     position: relative;
     overflow: hidden;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .slideshow-wrapper {
@@ -428,9 +441,12 @@ button,
     top: 0;
     left: 0;
     opacity: 0;
-    transition: opacity 0.5s ease-in-out;
+    transition: opacity 0.5s ease-in-out, transform 0.3s ease-out;
     cursor: inherit;
     transform: scale(0.95);
+    touch-action: none;
+    -webkit-user-select: none;
+    user-select: none;
 }
 
 .slide.active {
@@ -1069,6 +1085,10 @@ button,
     .gallery img {
         margin-bottom: 0.8em;
         break-inside: avoid;
+        pointer-events: auto !important;
+        cursor: var(--cursor-hover);
+        -webkit-tap-highlight-color: rgba(0, 255, 47, 0.2);
+        touch-action: manipulation;
     }
     
     .project-section {
@@ -1092,6 +1112,21 @@ button,
         display: flex;
         align-items: flex-start;
         position: relative;
+        pointer-events: auto !important;
+        cursor: pointer;
+        -webkit-tap-highlight-color: transparent;
+        touch-action: pan-y pinch-zoom;
+        overflow: hidden;
+    }
+    
+    .slide {
+        pointer-events: none;
+    }
+    
+    .slide-nav {
+        pointer-events: none !important;
+        opacity: 0;
+        visibility: hidden;
     }
     
     .slideshow-wrapper {
@@ -1228,5 +1263,18 @@ button,
     
     .banner-content {
         font-size: clamp(0.5em, 0.65em, 0.75em);
+    }
+    
+    .modal-img {
+        max-width: 95vw;
+        max-height: 85vh;
+    }
+    
+    .modal-backdrop {
+        touch-action: manipulation;
+    }
+    
+    .image-modal.active {
+        touch-action: manipulation;
     }
 }
