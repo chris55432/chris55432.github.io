@@ -1,113 +1,131 @@
-// Enhanced Hamburger Menu Behavior
-document.addEventListener('DOMContentLoaded', function() {
+// ============================================
+// NAVBAR TOGGLE FUNCTIONALITY
+// ============================================
+(function() {
+    'use strict';
+    
     const toggle = document.querySelector('.navbar-toggle');
     const links = document.querySelector('.navbar-links');
     const navbarLinks = document.querySelectorAll('.navbar-links a');
-
-    // Toggle menu on hamburger click
+    
+    function closeMenu() {
+        if (links) links.classList.remove('active');
+        if (toggle) toggle.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+    
     if (toggle && links) {
         toggle.addEventListener('click', function() {
             links.classList.toggle('active');
             toggle.classList.toggle('active');
-            
-            // Prevent body scroll when menu is open
-            if (links.classList.contains('active')) {
-                document.body.style.overflow = 'hidden';
-            } else {
-                document.body.style.overflow = '';
-            }
+            document.body.style.overflow = links.classList.contains('active') ? 'hidden' : '';
         });
-}
-
-    // Close menu when clicking on a navigation link
+    }
+    
     navbarLinks.forEach(link => {
-        link.addEventListener('click', function() {
-            if (links && links.classList.contains('active')) {
-                links.classList.remove('active');
-                toggle.classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
+        link.addEventListener('click', closeMenu);
     });
-
-    // Close menu when pressing Escape key
+    
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape' && links && links.classList.contains('active')) {
-            links.classList.remove('active');
-            toggle.classList.remove('active');
-            document.body.style.overflow = '';
+            closeMenu();
         }
     });
-
-    // Close menu when clicking outside of it
+    
     document.addEventListener('click', function(e) {
         if (links && links.classList.contains('active')) {
             if (!toggle.contains(e.target) && !links.contains(e.target)) {
-                links.classList.remove('active');
-                toggle.classList.remove('active');
-                document.body.style.overflow = '';
-    }
+                closeMenu();
+            }
         }
     });
-
-    // Handle window resize - close menu on desktop
+    
     window.addEventListener('resize', function() {
         if (window.innerWidth > 900 && links && links.classList.contains('active')) {
-            links.classList.remove('active');
-            toggle.classList.remove('active');
-            document.body.style.overflow = '';
+            closeMenu();
         }
     });
+})();
 
-    // Slideshow functionality
-    const slides = document.querySelectorAll('.slide');
+// ============================================
+// SLIDESHOW FUNCTIONALITY
+// ============================================
+(function() {
+    'use strict';
+    
+    let currentSlide = 0;
+    const slideshowContainer = document.querySelector('.slideshow-container');
     const navLeft = document.querySelector('.slide-nav-left');
     const navRight = document.querySelector('.slide-nav-right');
-    let currentSlide = 0;
-
+    
+    const leftArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
+    const rightArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
+    
     function showSlide(index) {
-        // Get slides dynamically (in case they were recreated)
-        const currentSlides = document.querySelectorAll('.slide');
-        if (currentSlides.length === 0) return;
+        const slides = document.querySelectorAll('.slide');
+        if (slides.length === 0) return;
         
-        // Remove active class from all slides
-        currentSlides.forEach(slide => slide.classList.remove('active'));
+        slides.forEach(slide => slide.classList.remove('active'));
         
-        // Ensure index is within bounds
         if (index < 0) {
-            currentSlide = currentSlides.length - 1;
-        } else if (index >= currentSlides.length) {
+            currentSlide = slides.length - 1;
+        } else if (index >= slides.length) {
             currentSlide = 0;
         } else {
             currentSlide = index;
         }
         
-        // Add active class to current slide
-        currentSlides[currentSlide].classList.add('active');
+        slides[currentSlide].classList.add('active');
     }
-
-    // Navigate to previous slide
+    
+    function navigateSlide(direction) {
+        showSlide(currentSlide + direction);
+    }
+    
     if (navLeft) {
         navLeft.addEventListener('click', function(e) {
             e.stopPropagation();
-            showSlide(currentSlide - 1);
+            navigateSlide(-1);
         });
     }
-
-    // Navigate to next slide
+    
     if (navRight) {
         navRight.addEventListener('click', function(e) {
             e.stopPropagation();
-            showSlide(currentSlide + 1);
+            navigateSlide(1);
         });
     }
-
+    
+    if (slideshowContainer) {
+        slideshowContainer.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            this.style.cursor = x < rect.width / 2 ? leftArrowCursor : rightArrowCursor;
+        });
+        
+        slideshowContainer.addEventListener('mouseleave', function() {
+            this.style.cursor = '';
+        });
+        
+        slideshowContainer.addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            navigateSlide(e.clientX - rect.left < rect.width / 2 ? -1 : 1);
+        });
+    }
+    
     // Initialize first slide
+    const slides = document.querySelectorAll('.slide');
     if (slides.length > 0) {
         showSlide(0);
     }
+})();
 
-    // Project data with images for each project
+// ============================================
+// PROJECT SWITCHING
+// ============================================
+(function() {
+    'use strict';
+    
     const projects = {
         frnd: {
             images: [
@@ -188,13 +206,11 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         }
     };
-
-    // Function to switch project
+    
     function switchProject(projectName) {
         const project = projects[projectName];
         if (!project) return;
-
-        // Update slideshow images
+        
         const slideshowWrapper = document.querySelector('.slideshow-wrapper');
         if (slideshowWrapper) {
             slideshowWrapper.innerHTML = '';
@@ -203,7 +219,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 img.src = imageSrc;
                 img.alt = `Slide ${index + 1}`;
                 img.className = 'slide';
-                // Handle image load errors
                 img.onerror = function() {
                     console.warn('Failed to load image:', imageSrc);
                     this.style.display = 'none';
@@ -216,121 +231,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 slideshowWrapper.appendChild(img);
             });
-
-            // Reinitialize slideshow
-            currentSlide = 0;
-            // Wait a bit for images to start loading, then show first slide
+            
             setTimeout(() => {
-                showSlide(0);
+                const slides = document.querySelectorAll('.slide');
+                if (slides.length > 0) {
+                    slides.forEach(slide => slide.classList.remove('active'));
+                    slides[0].classList.add('active');
+                }
             }, 100);
         }
-
-        // Update text content
-        const projectContents = document.querySelectorAll('.project-content');
-        projectContents.forEach(content => {
-            if (content.dataset.project === projectName) {
-                content.classList.add('active');
-            } else {
-                content.classList.remove('active');
-            }
+        
+        document.querySelectorAll('.project-content').forEach(content => {
+            content.classList.toggle('active', content.dataset.project === projectName);
         });
-
-        // Update button active state
-        const buttons = document.querySelectorAll('.right-column-btn');
-        buttons.forEach(btn => {
-            if (btn.dataset.project === projectName) {
-                btn.classList.add('active');
-            } else {
-                btn.classList.remove('active');
-            }
+        
+        document.querySelectorAll('.right-column-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.project === projectName);
         });
     }
-
-    // Initialize with the active project on page load
+    
     const activeProjectBtn = document.querySelector('.right-column-btn.active');
     if (activeProjectBtn && activeProjectBtn.dataset.project) {
         switchProject(activeProjectBtn.dataset.project);
     }
-
-    // Add click handlers to project links
-    const projectLinks = document.querySelectorAll('.right-column-btn');
-    projectLinks.forEach(link => {
+    
+    document.querySelectorAll('.right-column-btn').forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
-            const projectName = this.dataset.project;
-            if (projectName) {
-                switchProject(projectName);
+            if (this.dataset.project) {
+                switchProject(this.dataset.project);
             }
         });
     });
-
-    // Slideshow cursor change and click navigation based on mouse position
-    const slideshowContainer = document.querySelector('.slideshow-container');
-    if (slideshowContainer) {
-        // Custom arrow cursors - hollow with thin border
-        const leftArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
-        const rightArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
-        
-        slideshowContainer.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const width = rect.width;
-            const midpoint = width / 2;
-            
-            if (x < midpoint) {
-                // Left half - show left arrow
-                this.style.cursor = leftArrowCursor;
-            } else {
-                // Right half - show right arrow
-                this.style.cursor = rightArrowCursor;
-            }
-        });
-
-        slideshowContainer.addEventListener('mouseleave', function() {
-            this.style.cursor = '';
-        });
-
-        // Click to navigate slides
-        slideshowContainer.addEventListener('click', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const width = rect.width;
-            const midpoint = width / 2;
-            
-            if (x < midpoint) {
-                // Click left half - previous slide
-                showSlide(currentSlide - 1);
-            } else {
-                // Click right half - next slide
-                showSlide(currentSlide + 1);
-            }
-        });
-    }
-
-    // Function to reinitialize slideshow (for dynamic content)
-    function reinitSlideshow() {
-        const slides = document.querySelectorAll('.slide');
-        if (slides.length > 0) {
-            currentSlide = 0;
-            showSlide(0);
-            
-            // Reattach click handlers for nav buttons
-            const navLeft = document.querySelector('.slide-nav-left');
-            const navRight = document.querySelector('.slide-nav-right');
-            
-            if (navLeft) {
-                navLeft.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    showSlide(currentSlide - 1);
-                });
-            }
-            
-            if (navRight) {
-                navRight.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    showSlide(currentSlide + 1);
-                });
-            }
-        }
-    }
-});
+})();

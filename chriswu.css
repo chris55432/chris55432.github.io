@@ -1,19 +1,46 @@
-/* Basic CSS styles */
+/* ============================================
+   FONTS
+   ============================================ */
+@font-face {
+    font-family: 'Neue Haas Display Medium';
+    src: url('font/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayMediu.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Neue Haas Display Light';
+    src: url('font/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayLight.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+/* ============================================
+   CURSOR DEFINITIONS
+   ============================================ */
+:root {
+    --cursor-default: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23333'/%3E%3C/svg%3E") 16 16, auto;
+    --cursor-hover: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+    --cursor-left-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 40 40, auto;
+    --cursor-right-arrow: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 40 40, auto;
+}
+
+/* ============================================
+   BASE STYLES
+   ============================================ */
+* {
+    cursor: var(--cursor-default);
+    box-sizing: border-box;
+}
+
 body {
     font-family: 'Neue Haas Display Medium', Arial, Helvetica, sans-serif;
     background-color: #fffafa;
     margin: 0;
     padding: 0;
-    display: block;
     width: 100vw;
-    box-sizing: border-box;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23333'/%3E%3C/svg%3E") 16 16, auto;
+    cursor: var(--cursor-default);
 }
-
-* {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23333'/%3E%3C/svg%3E") 16 16, auto;
-}
-
 
 h1 {
     color: #333;
@@ -27,6 +54,9 @@ p {
     font-size: 1.1em;
 }
 
+/* ============================================
+   NAVBAR
+   ============================================ */
 .navbar {
     position: sticky;
     top: 0;
@@ -39,7 +69,6 @@ p {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    box-sizing: border-box;
     margin-left: calc(50% - 50vw);
 }
 
@@ -63,18 +92,6 @@ p {
     padding-inline-start: 20px;
 }
 
-.navbar-email {
-    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
-    font-weight: 900;
-    font-size: 1em;
-    letter-spacing: 0.01em;
-    color: #333;
-    text-decoration: none;
-    text-transform: uppercase;
-    margin-left: auto;
-    padding-left: 2em;
-}
-
 .navbar li {
     display: inline;
 }
@@ -93,17 +110,16 @@ p {
     border: none;
 }
 
-a:hover,
-a:hover *,
-button:hover,
-button:hover * {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
-}
-
-.navbar a:hover,
-.navbar a:hover *,
-.navbar-email:hover {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+.navbar-email {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    font-size: 1em;
+    letter-spacing: 0.01em;
+    color: #333;
+    text-decoration: none;
+    text-transform: uppercase;
+    margin-left: auto;
+    padding-left: 2em;
 }
 
 .navbar-toggle {
@@ -129,26 +145,33 @@ button:hover * {
     transition: 0.3s;
 }
 
-@font-face {
-    font-family: 'Neue Haas Display Medium';
-    src: url('font/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayMediu.ttf') format('truetype');
-    font-weight: 500;
-    font-style: normal;
+/* ============================================
+   HOVER STATES
+   ============================================ */
+a:hover,
+a:hover *,
+button:hover,
+button:hover *,
+.navbar a:hover,
+.navbar a:hover *,
+.navbar-email:hover {
+    cursor: var(--cursor-hover);
 }
 
-@font-face {
-    font-family: 'Neue Haas Display Light';
-    src: url('font/neue-haas-grotesk-display-pro-cufonfonts/NeueHaasDisplayLight.ttf') format('truetype');
-    font-weight: 300;
-    font-style: normal;
+button,
+.navbar a,
+.modal-close {
+    cursor: pointer;
 }
 
+/* ============================================
+   GALLERY
+   ============================================ */
 .gallery-section {
     width: 100vw;
     max-width: none;
     margin: 0;
     padding: clamp(40px, 4vw, 80px) clamp(10px, 1vw, 20px) clamp(40px, 4vw, 80px) clamp(10px, 1vw, 20px);
-    box-sizing: border-box;
     position: relative;
     left: 50%;
     right: 50%;
@@ -159,7 +182,6 @@ button:hover * {
     width: 100%;
     column-count: 4;
     column-gap: 1.5em;
-    box-sizing: border-box;
     padding: 0;
 }
 
@@ -171,217 +193,19 @@ button:hover * {
     box-shadow: 0 4px 16px rgba(0,0,0,0.1);
     break-inside: avoid;
     transition: all 0.3s cubic-bezier(0.4,0.2,0.2,1);
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23333'/%3E%3C/svg%3E") 16 16, auto;
+    cursor: var(--cursor-default);
 }
 
 .gallery img:hover {
     transform: translateY(-4px) scale(1.02);
     box-shadow: 0 8px 32px rgba(0,0,0,0.15);
     border-radius: 16px;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
+    cursor: var(--cursor-hover);
 }
 
-@media (max-width: 1200px) {
-    .gallery {
-        column-count: 3;
-        column-gap: 1.2em;
-    }
-}
-
-@media (max-width: 900px) {
-    .navbar {
-        padding: 1.5vw 2vw;
-        flex-wrap: wrap;
-    }
-    .navbar-logo {
-        font-size: 18px;
-        margin-left: 0;
-        padding-left: 0.3em;
-    }
-    .navbar-links {
-        position: static;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        padding: 0;
-        gap: 0.8em;
-        text-align: left;
-        background: transparent;
-        box-shadow: none;
-        width: auto;
-    }
-    .navbar-links a {
-        text-align: left;
-        width: auto;
-        display: inline-block;
-        font-size: 0.9em;
-    }
-    .navbar-links.active {
-        display: flex;
-    }
-    .navbar-toggle {
-        display: none;
-    }
-    .navbar-email {
-        margin-left: auto;
-        padding-left: 1em;
-        font-size: 0.9em;
-    }
-    .project-links {
-        display: none;
-    }
-    .gallery {
-        column-count: 2;
-        column-gap: 1em;
-    }
-    .project-section {
-        padding: 3vw 2vw 0 2vw;
-    }
-    .project-logo h1 {
-        font-size: 28px;
-        line-height: 24px;
-    }
-    .project-description {
-        max-width: 100%;
-    }
-    .project-description p {
-        font-size: 0.9em;
-    }
-    .meta-value {
-        font-size: 32px;
-        line-height: 28px;
-    }
-    .meta-label {
-        font-size: 11px;
-    }
-}
-
-@media (max-width: 600px) {
-    .navbar {
-        padding: 2vw 3vw clamp(20px, 4vw, 30px) 3vw;
-        position: fixed;
-        bottom: 0;
-        top: auto;
-        z-index: 1001;
-        backdrop-filter: blur(3px);
-        -webkit-backdrop-filter: blur(3px);
-        border-top: none;
-        border-bottom: none;
-        justify-content: flex-end;
-    }
-    .navbar-logo-link {
-        display: none;
-    }
-    .navbar-logo {
-        display: none;
-    }
-    .navbar-links {
-        gap: 0.5em;
-        width: auto;
-        flex: 1;
-        justify-content: space-evenly;
-        margin: 0;
-        padding: 0 !important;
-        padding-inline-start: 0 !important;
-        padding-left: 0 !important;
-    }
-    .navbar-links li {
-        padding-left: 0 !important;
-        margin-left: 0 !important;
-        padding-inline-start: 0 !important;
-    }
-    .navbar-links a {
-        font-size: 1.3em;
-        padding-left: 0 !important;
-        padding-inline-start: 0 !important;
-    }
-    .right-column-btn {
-        font-size: 1.3em !important;
-        padding-left: 0 !important;
-        padding-inline-start: 0 !important;
-    }
-    .navbar-links a:not(.navbar-email) {
-        font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
-        font-weight: 300;
-        font-size: 1.3em;
-        letter-spacing: 0.02em;
-        text-transform: uppercase;
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
-    }
-    .project-links a {
-        padding-left: 0 !important;
-        padding-inline-start: 0 !important;
-    }
-    .navbar-email {
-        display: none;
-    }
-    .home-page .navbar-email {
-        display: block;
-        font-size: 1.3em;
-        padding-left: 0;
-        padding-inline-start: 0;
-    }
-    .project-links {
-        display: flex !important;
-        flex: 1;
-        justify-content: space-evenly;
-        margin: 0;
-        padding: 0 !important;
-        padding-inline-start: 0 !important;
-        padding-left: 0 !important;
-    }
-    .project-links li {
-        padding-left: 0 !important;
-        margin-left: 0 !important;
-        padding-inline-start: 0 !important;
-    }
-    .gallery-section {
-        padding: 6em 1vw clamp(80px, 15vw, 100px) 1vw;
-    }
-    .gallery {
-        column-count: 2;
-        column-gap: 0.8em;
-    }
-    .gallery img {
-        margin-bottom: 0.8em;
-        break-inside: avoid;
-    }
-    .project-section {
-        padding: 2vw 3vw 0 3vw;
-        height: calc(100vh - clamp(20px, 4vw, 60px));
-    }
-    .project-logo h1 {
-        font-size: 36px;
-        line-height: 32px;
-        letter-spacing: -2px;
-    }
-    .project-description p {
-        font-size: 0.85em;
-        line-height: 1.3;
-    }
-    .project-meta {
-        gap: 1em;
-    }
-    .meta-value {
-        font-size: 24px;
-        line-height: 22px;
-    }
-    .meta-label {
-        font-size: 10px;
-        margin-bottom: 0.3em;
-    }
-    .tag {
-        font-size: 11px;
-        padding: 0.2em 0.6em;
-    }
-    .tags-section {
-        gap: 6px;
-    }
-    .banner-content {
-        font-size: 0.75em;
-    }
-}
-
+/* ============================================
+   IMAGE MODAL
+   ============================================ */
 .image-modal {
     display: none;
     position: fixed;
@@ -398,13 +222,14 @@ button:hover * {
 .image-modal.active {
     display: flex;
     pointer-events: auto;
-    align-items: center;
-    justify-content: center;
 }
 
 .modal-backdrop {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     width: 100vw;
     height: 100vh;
     background: rgba(30,30,30,0.35);
@@ -427,7 +252,10 @@ button:hover * {
 .modal-img::after {
     content: '';
     position: absolute;
-    top: -3px; left: -3px; right: -3px; bottom: -3px;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
     border-radius: 0;
     pointer-events: none;
     background: linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.08) 100%);
@@ -456,13 +284,9 @@ button:hover * {
     }
 }
 
-button,
-.navbar a,
-.modal-close {
-    cursor: pointer;
-}
-
-/* Footer Styles */
+/* ============================================
+   FOOTER
+   ============================================ */
 .footer {
     background-color: transparent;
     padding: 2em 0;
@@ -544,35 +368,14 @@ button,
     color: #00ff2f;
 }
 
-@media (max-width: 768px) {
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5em;
-    }
-    
-    .footer-left {
-        flex-direction: column;
-        gap: 0.5em;
-    }
-    
-    .footer-right {
-        flex-direction: column;
-        gap: 1em;
-    }
-    
-    .footer-links {
-        gap: 1em;
-    }
-}
-
-/* Bordered Section */
+/* ============================================
+   PROJECT SECTION
+   ============================================ */
 .project-section {
     width: 100vw;
     height: calc(100vh - clamp(30px, 6vw, 90px));
     max-width: none;
     padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px);
-    box-sizing: border-box;
     position: fixed;
     left: 0;
     margin-bottom: 0;
@@ -584,13 +387,26 @@ button,
 .column-top {
     width: 80%;
     height: 100%;
-    box-sizing: border-box;
     overflow: hidden;
     position: relative;
     order: 2;
 }
 
-/* Slideshow Styles */
+.column-bottom {
+    width: 20%;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    order: 1;
+    position: relative;
+}
+
+/* ============================================
+   SLIDESHOW
+   ============================================ */
 .slideshow-container {
     width: 100%;
     height: 100%;
@@ -669,11 +485,11 @@ button,
 }
 
 .slideshow-container:hover .slide-nav-left {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 40 40, auto;
+    cursor: var(--cursor-left-arrow);
 }
 
 .slideshow-container:hover .slide-nav-right {
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") 40 40, auto;
+    cursor: var(--cursor-right-arrow);
 }
 
 .nav-indicator {
@@ -708,49 +524,9 @@ button,
     color: #00ff2f;
 }
 
-.column-bottom {
-    width: 20%;
-    height: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    padding: 0 0 0 0;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    order: 1;
-    position: relative;
-}
-
-.project-links {
-    display: flex;
-    flex-direction: row;
-    gap: 1em;
-    align-items: center;
-    width: fit-content;
-    margin-left: auto;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    padding-inline-start: 20px;
-}
-
-.right-column-btn {
-    padding: 0;
-    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
-    font-size: 1em;
-    font-weight: 300;
-    color: #333;
-    background-color: transparent;
-    border: none;
-    text-decoration: none;
-    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='15' fill='none' stroke='%23333' stroke-width='1'/%3E%3Cline x1='10' y1='16' x2='22' y2='16' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3Cline x1='16' y1='10' x2='16' y2='22' stroke='%2300ff2f' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E") 16 16, auto;
-    transition: all 0.3s ease;
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    display: inline-block;
-}
-
-
+/* ============================================
+   PROJECT CONTENT
+   ============================================ */
 .text-section {
     margin-top: 0;
     width: 100%;
@@ -782,7 +558,7 @@ button,
     font-weight: 100;
     color: #333;
     line-height: 1.1em;
-    margin: 1em 0 1em 0;
+    margin: 1em 0;
     text-align: left;
 }
 
@@ -815,11 +591,10 @@ button,
     width: 100%;
 }
 
-/* Individual gaps for project-content elements */
 .project-logo {
     margin-left: -2px;
     flex-shrink: 0;
-    margin-bottom: 8px; /* Gap after logo */
+    margin-bottom: 8px;
 }
 
 .project-logo h1 {
@@ -855,30 +630,26 @@ button,
     flex-direction: column;
     gap: 0;
     flex-shrink: 0;
-    margin-bottom: 0; /* No gap after meta (last item) */
-}
-
-/* Individual meta-item gaps */
-.meta-item:nth-child(1) {
-    margin-bottom: 1.5em; /* Gap after TAGS */
-    height: 70px
-}
-
-.meta-item:nth-child(2) {
-    margin-bottom: 1.5em; /* Gap after YEAR */
-}
-
-.meta-item:nth-child(3) {
-    margin-bottom: 1.5em; /* Gap after DURATION */
-}
-
-.meta-item:nth-child(4) {
-    margin-bottom: 0; /* No gap after WEBSITE (last item) */
+    margin-bottom: 0;
 }
 
 .meta-item {
     display: flex;
     flex-direction: column;
+}
+
+.meta-item:nth-child(1) {
+    margin-bottom: 1.5em;
+    height: 70px;
+}
+
+.meta-item:nth-child(2),
+.meta-item:nth-child(3) {
+    margin-bottom: 1.5em;
+}
+
+.meta-item:nth-child(4) {
+    margin-bottom: 0;
 }
 
 .meta-label {
@@ -916,9 +687,41 @@ button,
     line-height: 19px;
     letter-spacing: 0.3px;
     word-spacing: 5%;
-    margin: 0 0 0 0;
+    margin: 0;
     text-align: left;
     width: 100%;
+}
+
+/* ============================================
+   PROJECT LINKS
+   ============================================ */
+.project-links {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    align-items: center;
+    width: fit-content;
+    margin-left: auto;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    padding-inline-start: 20px;
+}
+
+.right-column-btn {
+    padding: 0;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 1em;
+    font-weight: 300;
+    color: #333;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    cursor: var(--cursor-hover);
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    display: inline-block;
 }
 
 .right-column-btn.active {
@@ -933,6 +736,9 @@ button,
     font-size: 1.5em;
 }
 
+/* ============================================
+   TAGS
+   ============================================ */
 .tags-section {
     margin: 0;
     padding: 0;
@@ -956,17 +762,68 @@ button,
     letter-spacing: 0.05em;
 }
 
-/* Responsive adjustments for project-section */
+/* ============================================
+   RUNNING BANNER
+   ============================================ */
+.running-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fffafa;
+    color: #333;
+    padding: 0.5em 0;
+    overflow: hidden;
+    white-space: nowrap;
+    z-index: 1000;
+    border-top: 1px solid #333;
+    display: flex;
+}
+
+.banner-content {
+    display: inline-block;
+    animation: scroll-banner 30s linear infinite;
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: clamp(0.7em, 0.9em, 1em);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding-right: 50px;
+    white-space: nowrap;
+}
+
+.running-banner:hover .banner-content {
+    animation-play-state: paused;
+}
+
+@keyframes scroll-banner {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* ============================================
+   MEDIA QUERIES
+   ============================================ */
 @media (max-width: 1200px) {
+    .gallery {
+        column-count: 3;
+        column-gap: 1.2em;
+    }
+    
     .project-section {
         top: clamp(20px, 4vw, 60px);
         height: calc(100vh - clamp(40px, 8vw, 120px));
         padding: 3vw 2vw 0 2vw;
     }
+    
     .project-logo h1 {
         font-size: 32px;
         line-height: 27px;
     }
+    
     .meta-value {
         font-size: 36px;
         line-height: 30px;
@@ -974,14 +831,212 @@ button,
 }
 
 @media (max-width: 900px) {
+    .navbar {
+        padding: 1.5vw 2vw;
+        flex-wrap: wrap;
+    }
+    
+    .navbar-logo {
+        font-size: 18px;
+        margin-left: 0;
+        padding-left: 0.3em;
+    }
+    
+    .navbar-links {
+        position: static;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+        gap: 0.8em;
+        text-align: left;
+        background: transparent;
+        box-shadow: none;
+        width: auto;
+    }
+    
+    .navbar-links a {
+        text-align: left;
+        width: auto;
+        display: inline-block;
+        font-size: 0.9em;
+    }
+    
+    .navbar-links.active {
+        display: flex;
+    }
+    
+    .navbar-toggle {
+        display: none;
+    }
+    
+    .navbar-email {
+        margin-left: auto;
+        padding-left: 1em;
+        font-size: 0.9em;
+    }
+    
+    .project-links {
+        display: none;
+    }
+    
+    .gallery {
+        column-count: 2;
+        column-gap: 1em;
+    }
+    
     .project-section {
         top: clamp(20px, 4vw, 60px);
         height: calc(100vh - clamp(40px, 8vw, 120px));
         padding: 3vw 2vw 0 2vw;
     }
+    
+    .project-logo h1 {
+        font-size: 28px;
+        line-height: 24px;
+    }
+    
+    .project-description {
+        max-width: 100%;
+    }
+    
+    .project-description p {
+        font-size: 0.9em;
+    }
+    
+    .meta-value {
+        font-size: 32px;
+        line-height: 28px;
+    }
+    
+    .meta-label {
+        font-size: 11px;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5em;
+    }
+    
+    .footer-left {
+        flex-direction: column;
+        gap: 0.5em;
+    }
+    
+    .footer-right {
+        flex-direction: column;
+        gap: 1em;
+    }
+    
+    .footer-links {
+        gap: 1em;
+    }
 }
 
 @media (max-width: 600px) {
+    .navbar {
+        padding: 2vw 3vw clamp(20px, 4vw, 30px) 3vw;
+        position: fixed;
+        bottom: 0;
+        top: auto;
+        z-index: 1001;
+        backdrop-filter: blur(3px);
+        -webkit-backdrop-filter: blur(3px);
+        border-top: none;
+        border-bottom: none;
+        justify-content: flex-end;
+    }
+    
+    .navbar-logo-link,
+    .navbar-logo {
+        display: none;
+    }
+    
+    .navbar-links {
+        gap: 0.5em;
+        width: auto;
+        flex: 1;
+        justify-content: space-evenly;
+        margin: 0;
+        padding: 0 !important;
+        padding-inline-start: 0 !important;
+        padding-left: 0 !important;
+    }
+    
+    .navbar-links li {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    
+    .navbar-links a {
+        font-size: 1.3em;
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    
+    .right-column-btn {
+        font-size: 1.3em !important;
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    
+    .navbar-links a:not(.navbar-email) {
+        font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+        font-weight: 300;
+        font-size: 1.3em;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        cursor: var(--cursor-hover);
+    }
+    
+    .project-links a {
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    
+    .navbar-email {
+        display: none;
+    }
+    
+    .home-page .navbar-email {
+        display: block;
+        font-size: 1.3em;
+        padding-left: 0;
+        padding-inline-start: 0;
+    }
+    
+    .project-links {
+        display: flex !important;
+        flex: 1;
+        justify-content: space-evenly;
+        margin: 0;
+        padding: 0 !important;
+        padding-inline-start: 0 !important;
+        padding-left: 0 !important;
+    }
+    
+    .project-links li {
+        padding-left: 0 !important;
+        margin-left: 0 !important;
+        padding-inline-start: 0 !important;
+    }
+    
+    .gallery-section {
+        padding: 6em 1vw clamp(80px, 15vw, 100px) 1vw;
+    }
+    
+    .gallery {
+        column-count: 2;
+        column-gap: 0.8em;
+    }
+    
+    .gallery img {
+        margin-bottom: 0.8em;
+        break-inside: avoid;
+    }
+    
     .project-section {
         position: relative;
         height: auto;
@@ -1047,10 +1102,7 @@ button,
         flex-direction: column;
     }
     
-    .project-content-left {
-        width: 100%;
-    }
-    
+    .project-content-left,
     .project-content-right {
         width: 100%;
     }
@@ -1130,57 +1182,15 @@ button,
     .tags-section {
         gap: 6px;
     }
-}
-
-/* Running Banner Styles */
-.running-banner {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #fffafa;
-    color: #333;
-    padding: 0.5em 0;
-    overflow: hidden;
-    white-space: nowrap;
-    z-index: 1000;
-    border-top: 1px solid #333;
-    display: flex;
-}
-
-@media (max-width: 600px) {
+    
     .running-banner {
         top: 0;
         bottom: auto;
         border-top: none;
         border-bottom: 1px solid #333;
     }
+    
     .banner-content {
         font-size: clamp(0.5em, 0.65em, 0.75em);
     }
 }
-
-.banner-content {
-    display: inline-block;
-    animation: scroll-banner 30s linear infinite;
-    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
-    font-size: clamp(0.7em, 0.9em, 1em);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding-right: 50px;
-    white-space: nowrap;
-}
-
-.running-banner:hover .banner-content {
-    animation-play-state: paused;
-}
-
-@keyframes scroll-banner {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
-}
-
