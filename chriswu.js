@@ -4,47 +4,59 @@
 (function() {
     'use strict';
     
-    const toggle = document.querySelector('.navbar-toggle');
-    const links = document.querySelector('.navbar-links');
-    const navbarLinks = document.querySelectorAll('.navbar-links a');
-    
-    function closeMenu() {
-        if (links) links.classList.remove('active');
-        if (toggle) toggle.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    if (toggle && links) {
-        toggle.addEventListener('click', function() {
+    function initNavbar() {
+        const toggle = document.querySelector('.navbar-toggle');
+        const links = document.querySelector('.navbar-links');
+        const navbarLinks = document.querySelectorAll('.navbar-links a');
+        
+        if (!toggle || !links) return;
+        
+        function closeMenu() {
+            links.classList.remove('active');
+            toggle.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            document.body.style.overflow = '';
+        }
+        
+        toggle.addEventListener('click', function(e) {
+            e.stopPropagation();
             links.classList.toggle('active');
             toggle.classList.toggle('active');
-            document.body.style.overflow = links.classList.contains('active') ? 'hidden' : '';
+            const isOpen = links.classList.contains('active');
+            document.body.classList.toggle('menu-open', isOpen);
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        });
+        
+        navbarLinks.forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && links.classList.contains('active')) {
+                closeMenu();
+            }
+        });
+        
+        document.addEventListener('click', function(e) {
+            if (links.classList.contains('active')) {
+                if (!toggle.contains(e.target) && !links.contains(e.target)) {
+                    closeMenu();
+                }
+            }
+        });
+        
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 900 && links.classList.contains('active')) {
+                closeMenu();
+            }
         });
     }
     
-    navbarLinks.forEach(link => {
-        link.addEventListener('click', closeMenu);
-    });
-    
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && links && links.classList.contains('active')) {
-            closeMenu();
-        }
-    });
-    
-    document.addEventListener('click', function(e) {
-        if (links && links.classList.contains('active')) {
-            if (!toggle.contains(e.target) && !links.contains(e.target)) {
-                closeMenu();
-            }
-        }
-    });
-    
-    window.addEventListener('resize', function() {
-        if (window.innerWidth > 900 && links && links.classList.contains('active')) {
-            closeMenu();
-        }
-    });
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initNavbar);
+    } else {
+        initNavbar();
+    }
 })();
 
 // ============================================
@@ -62,7 +74,7 @@
         const slides = document.querySelectorAll('.slide');
         if (slides.length === 0) return;
         
-        slides.forEach(slide => slide.classList.remove('active'));
+        slides.forEach(slide => slide.classList.remove('active', 'prev', 'next'));
         
         if (index < 0) {
             currentSlide = slides.length - 1;
@@ -73,6 +85,13 @@
         }
         
         slides[currentSlide].classList.add('active');
+        
+        if (slides.length > 1) {
+            const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
+            const nextIndex = (currentSlide + 1) % slides.length;
+            slides[prevIndex].classList.add('prev');
+            slides[nextIndex].classList.add('next');
+        }
     }
     
     function navigateSlide(direction) {
@@ -371,18 +390,23 @@
         });
     }
     
+        const params = new URLSearchParams(window.location.search);
+        const projectFromUrl = params.get('project');
         const activeProjectBtn = document.querySelector('.right-column-btn.active');
-        if (activeProjectBtn && activeProjectBtn.dataset.project) {
+        const slideshowWrapper = document.querySelector('.slideshow-wrapper');
+
+        if (projectFromUrl && projects[projectFromUrl]) {
+            switchProject(projectFromUrl);
+        } else if (activeProjectBtn && activeProjectBtn.dataset.project) {
             switchProject(activeProjectBtn.dataset.project);
         }
         
         document.querySelectorAll('.right-column-btn').forEach(link => {
             link.addEventListener('click', function(e) {
+                if (!this.dataset.project || !slideshowWrapper) return;
                 e.preventDefault();
                 e.stopPropagation();
-                if (this.dataset.project) {
-                    switchProject(this.dataset.project);
-                }
+                switchProject(this.dataset.project);
             });
         });
     }
