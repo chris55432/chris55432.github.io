@@ -70,11 +70,21 @@
     const leftArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
     const rightArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
     
+    function updateNavVisibility() {
+        const slides = document.querySelectorAll('.slide');
+        const navLeft = document.querySelector('.slide-nav-left');
+        const navRight = document.querySelector('.slide-nav-right');
+        const showNav = slides.length > 1;
+        
+        if (navLeft) navLeft.style.display = showNav ? 'flex' : 'none';
+        if (navRight) navRight.style.display = showNav ? 'flex' : 'none';
+    }
+    
     function showSlide(index) {
         const slides = document.querySelectorAll('.slide');
         if (slides.length === 0) return;
         
-        slides.forEach(slide => slide.classList.remove('active', 'prev', 'next'));
+        slides.forEach(slide => slide.classList.remove('active'));
         
         if (index < 0) {
             currentSlide = slides.length - 1;
@@ -85,13 +95,7 @@
         }
         
         slides[currentSlide].classList.add('active');
-        
-        if (slides.length > 1) {
-            const prevIndex = (currentSlide - 1 + slides.length) % slides.length;
-            const nextIndex = (currentSlide + 1) % slides.length;
-            slides[prevIndex].classList.add('prev');
-            slides[nextIndex].classList.add('next');
-        }
+        updateNavVisibility();
     }
     
     function navigateSlide(direction) {
@@ -200,6 +204,26 @@
         isSlideshowTouch = false;
     }, { passive: false });
     
+    function bindNavButton(nav, direction) {
+        if (!nav || nav.dataset.navBound) return;
+        nav.dataset.navBound = 'true';
+        
+        nav.addEventListener('click', function(e) {
+            if (Date.now() - lastTouchTime < 300) return;
+            e.stopPropagation();
+            navigateSlide(direction);
+        });
+        
+        nav.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            lastTouchTime = Date.now();
+            navigateSlide(direction);
+        }, { passive: false });
+    }
+    
+    let slideshowContainerBound = false;
+    
     function initSlideshow() {
         const slideshowContainer = document.querySelector('.slideshow-container');
         const navLeft = document.querySelector('.slide-nav-left');
@@ -207,37 +231,28 @@
         
         if (!slideshowContainer) return;
         
-        // Reset current slide
-        currentSlide = 0;
+        bindNavButton(navLeft, -1);
+        bindNavButton(navRight, 1);
         
-        if (navLeft) {
-            navLeft.addEventListener('click', function(e) {
-                e.stopPropagation();
-                navigateSlide(-1);
+        if (!slideshowContainerBound) {
+            slideshowContainer.addEventListener('mousemove', function(e) {
+                const rect = this.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                this.style.cursor = x < rect.width / 2 ? leftArrowCursor : rightArrowCursor;
             });
+            
+            slideshowContainer.addEventListener('mouseleave', function() {
+                this.style.cursor = '';
+            });
+            
+            slideshowContainerBound = true;
         }
         
-        if (navRight) {
-            navRight.addEventListener('click', function(e) {
-                e.stopPropagation();
-                navigateSlide(1);
-            });
-        }
-        
-        slideshowContainer.addEventListener('mousemove', function(e) {
-            const rect = this.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            this.style.cursor = x < rect.width / 2 ? leftArrowCursor : rightArrowCursor;
-        });
-        
-        slideshowContainer.addEventListener('mouseleave', function() {
-            this.style.cursor = '';
-        });
-        
-        // Initialize first slide
         const slides = slideshowContainer.querySelectorAll('.slide');
         if (slides.length > 0) {
-            showSlide(0);
+            showSlide(currentSlide);
+        } else {
+            updateNavVisibility();
         }
     }
     
