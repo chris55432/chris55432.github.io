@@ -308,8 +308,6 @@
         },
         mouggan: {
             images: [
-                'images/MOUGGAN/mouggan-ads1.jpg',
-                'images/MOUGGAN/mouggan-ads2.jpg',
                 'images/MOUGGAN/mouggan-banner1.jpg',
                 'images/MOUGGAN/mouggan-banner2.jpg',
                 'images/MOUGGAN/mouggan-banner3.jpg',
@@ -561,5 +559,44 @@
         document.addEventListener('DOMContentLoaded', initModal);
     } else {
         initModal();
+    }
+})();
+
+// ============================================
+// GALLERY SHUFFLE
+// ============================================
+(function() {
+    'use strict';
+    
+    const posterImages = Array.from({ length: 38 }, (_, i) => `images/poster/Poster-${i + 1}.jpg`);
+    
+    function shuffleGallery() {
+        const gallery = document.querySelector('.gallery');
+        if (!gallery) return;
+        
+        if (gallery.children.length === 0) {
+            posterImages.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Poster ${index + 1}`;
+                gallery.appendChild(img);
+            });
+        }
+        
+        const images = Array.from(gallery.querySelectorAll('img'));
+        if (images.length < 2) return;
+        
+        for (let i = images.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [images[i], images[j]] = [images[j], images[i]];
+        }
+        
+        images.forEach(img => gallery.appendChild(img));
+    }
+    
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', shuffleGallery);
+    } else {
+        shuffleGallery();
     }
 })();
