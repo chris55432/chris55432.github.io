@@ -415,7 +415,7 @@ button,
     width: 100vw;
     height: calc(100vh - clamp(30px, 6vw, 90px));
     max-width: none;
-    padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) 0 clamp(10px, 1vw, 20px);
+    padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px);
     position: fixed;
     left: 0;
     margin-bottom: 0;
@@ -827,7 +827,7 @@ button,
     .project-section {
         top: clamp(20px, 4vw, 60px);
         height: calc(100vh - clamp(40px, 8vw, 120px));
-        padding: 3vw 2vw 0 2vw;
+        padding: 3vw 2vw 3vw 2vw;
     }
     
     .project-logo h1 {
@@ -1145,7 +1145,7 @@ button,
     .project-section {
         top: clamp(20px, 4vw, 60px);
         height: calc(100vh - clamp(40px, 8vw, 120px));
-        padding: 3vw 2vw 0 2vw;
+        padding: 3vw 2vw 3vw 2vw;
         z-index: 1;
     }
     
@@ -1237,7 +1237,7 @@ button,
         position: relative;
         height: auto;
         min-height: 70vh;
-        padding: 5vw 3vw 0 3vw;
+        padding: 5vw 3vw 8vw 3vw;
         flex-direction: column;
     }
     
