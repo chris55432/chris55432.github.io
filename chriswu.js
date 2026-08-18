@@ -60,354 +60,330 @@
 })();
 
 // ============================================
-// SLIDESHOW FUNCTIONALITY
-// ============================================
-(function() {
-    'use strict';
-    
-    let currentSlide = 0;
-    
-    const leftArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M50 20 L30 40 L50 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
-    const rightArrowCursor = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cpath d='M30 20 L50 40 L30 60' fill='none' stroke='%23333' stroke-width='1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E\") 40 40, auto";
-    
-    function updateNavVisibility() {
-        const slides = document.querySelectorAll('.slide');
-        const navLeft = document.querySelector('.slide-nav-left');
-        const navRight = document.querySelector('.slide-nav-right');
-        const showNav = slides.length > 1;
-        
-        if (navLeft) navLeft.style.display = showNav ? 'flex' : 'none';
-        if (navRight) navRight.style.display = showNav ? 'flex' : 'none';
-    }
-    
-    function showSlide(index) {
-        const slides = document.querySelectorAll('.slide');
-        if (slides.length === 0) return;
-        
-        slides.forEach(slide => slide.classList.remove('active'));
-        
-        if (index < 0) {
-            currentSlide = slides.length - 1;
-        } else if (index >= slides.length) {
-            currentSlide = 0;
-        } else {
-            currentSlide = index;
-        }
-        
-        slides[currentSlide].classList.add('active');
-        updateNavVisibility();
-    }
-    
-    function navigateSlide(direction) {
-        showSlide(currentSlide + direction);
-    }
-    
-    let lastTouchTime = 0;
-    let touchStartX = 0;
-    let touchStartY = 0;
-    let touchStartTime = 0;
-    let isSlideshowTouch = false;
-    
-    // Handle touch start to track swipe gestures
-    document.addEventListener('touchstart', function(e) {
-        const slideshowContainer = document.querySelector('.slideshow-container');
-        if (slideshowContainer && slideshowContainer.contains(e.target)) {
-            // Don't interfere with gallery images
-            if (e.target.closest('.gallery img')) return;
-            
-            // Don't track if clicking on nav buttons
-            if (e.target.closest('.slide-nav')) return;
-            
-            isSlideshowTouch = true;
-            const touch = e.touches && e.touches[0];
-            if (touch) {
-                touchStartX = touch.clientX;
-                touchStartY = touch.clientY;
-                touchStartTime = Date.now();
-            }
-        } else {
-            isSlideshowTouch = false;
-        }
-    }, { passive: true });
-    
-    // Use event delegation on document for reliability - desktop clicks
-    document.addEventListener('click', function(e) {
-        // Skip if this was a touch event (mobile)
-        const timeSinceTouch = Date.now() - lastTouchTime;
-        if (timeSinceTouch < 300) return; // Ignore click if touch happened recently
-        
-        // Don't interfere with gallery images
-        if (e.target.closest('.gallery img')) return;
-        
-        const slideshowContainer = document.querySelector('.slideshow-container');
-        if (!slideshowContainer || !slideshowContainer.contains(e.target)) return;
-        
-        // Don't navigate if clicking on nav buttons
-        if (e.target.closest('.slide-nav')) return;
-        
-        const rect = slideshowContainer.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        if (rect.width > 0) {
-            navigateSlide(x < rect.width / 2 ? -1 : 1);
-        }
-    });
-    
-    // Touch support for mobile - swipe gestures
-    document.addEventListener('touchend', function(e) {
-        // Don't interfere with gallery images
-        if (e.target.closest('.gallery img')) return;
-        
-        const slideshowContainer = document.querySelector('.slideshow-container');
-        if (!slideshowContainer || !slideshowContainer.contains(e.target)) return;
-        
-        // Don't navigate if clicking on nav buttons
-        if (e.target.closest('.slide-nav')) return;
-        
-        if (!isSlideshowTouch) return;
-        
-        const touch = e.changedTouches && e.changedTouches[0];
-        if (!touch) return;
-        
-        const deltaX = touch.clientX - touchStartX;
-        const deltaY = Math.abs(touch.clientY - touchStartY);
-        const deltaTime = Date.now() - touchStartTime;
-        const absDeltaX = Math.abs(deltaX);
-        
-        // Determine if it's a swipe or tap
-        const isSwipe = absDeltaX > 30 && absDeltaX > deltaY && deltaTime < 500;
-        const isTap = absDeltaX < 10 && deltaY < 10;
-        
-        if (isSwipe) {
-            // Swipe detected - navigate based on direction
-            e.preventDefault();
-            lastTouchTime = Date.now();
-            
-            if (deltaX > 0) {
-                // Swipe right = previous slide
-                navigateSlide(-1);
-            } else {
-                // Swipe left = next slide
-                navigateSlide(1);
-            }
-        } else if (isTap) {
-            // Tap detected - navigate based on tap position
-            e.preventDefault();
-            lastTouchTime = Date.now();
-            
-            const rect = slideshowContainer.getBoundingClientRect();
-            if (rect.width > 0) {
-                const x = touch.clientX - rect.left;
-                navigateSlide(x < rect.width / 2 ? -1 : 1);
-            }
-        }
-        
-        isSlideshowTouch = false;
-    }, { passive: false });
-    
-    function bindNavButton(nav, direction) {
-        if (!nav || nav.dataset.navBound) return;
-        nav.dataset.navBound = 'true';
-        
-        nav.addEventListener('click', function(e) {
-            if (Date.now() - lastTouchTime < 300) return;
-            e.stopPropagation();
-            navigateSlide(direction);
-        });
-        
-        nav.addEventListener('touchend', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            lastTouchTime = Date.now();
-            navigateSlide(direction);
-        }, { passive: false });
-    }
-    
-    let slideshowContainerBound = false;
-    
-    function initSlideshow() {
-        const slideshowContainer = document.querySelector('.slideshow-container');
-        const navLeft = document.querySelector('.slide-nav-left');
-        const navRight = document.querySelector('.slide-nav-right');
-        
-        if (!slideshowContainer) return;
-        
-        bindNavButton(navLeft, -1);
-        bindNavButton(navRight, 1);
-        
-        if (!slideshowContainerBound) {
-            slideshowContainer.addEventListener('mousemove', function(e) {
-                const rect = this.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                this.style.cursor = x < rect.width / 2 ? leftArrowCursor : rightArrowCursor;
-            });
-            
-            slideshowContainer.addEventListener('mouseleave', function() {
-                this.style.cursor = '';
-            });
-            
-            slideshowContainerBound = true;
-        }
-        
-        const slides = slideshowContainer.querySelectorAll('.slide');
-        if (slides.length > 0) {
-            showSlide(currentSlide);
-        } else {
-            updateNavVisibility();
-        }
-    }
-    
-    // Initialize on load
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initSlideshow);
-    } else {
-        initSlideshow();
-    }
-    
-    // Expose reinit function for project switching
-    window.reinitSlideshow = function() {
-        currentSlide = 0;
-        initSlideshow();
-    };
-})();
-
-// ============================================
 // PROJECT SWITCHING
 // ============================================
 (function() {
     'use strict';
     
     function initProjectSwitching() {
-        const projects = {
-        frnd: {
-            images: [
-                'images/FRND/FRND-1.jpg',
-                'images/FRND/FRND-2.jpg',
-                'images/FRND/FRND-3.jpg',
-                'images/FRND/FRND-4.jpg',
-                'images/FRND/FRND-5.jpg',
-                'images/FRND/FRND-wt1.jpg',
-                'images/FRND/FRND-wt2.jpg',
-                'images/FRND/FRND-wt3.jpg',
-                'images/FRND/FRND-wt4.jpg',
-                'images/FRND/FRND-wt5.jpg',
-                'images/FRND/FRND-wt6.jpg',
-                'images/FRND/FRND-wt7.jpg',
-                'images/FRND/FRND-wt8.jpg',
-                'images/FRND/FRND-wt9.jpg',
-                'images/FRND/FRND-wt10.jpg',
-                'images/FRND/FRND-ls1.jpg',
-                'images/FRND/FRND-ls2.jpg',
-                'images/FRND/FRND-ls3.jpg',
-                'images/FRND/FRND-ls4.jpg',
-                'images/FRND/FRND-ls5.jpg',
-                'images/FRND/FRND-ls6.jpg',
-                'images/FRND/FRND-ls7.jpg',
-                'images/FRND/FRND-ls8.jpg',
-                'images/FRND/FRND-ls9.jpg'
-            ]
-        },
-        mouggan: {
-            images: [
-                'images/MOUGGAN/mouggan-banner1.jpg',
-                'images/MOUGGAN/mouggan-banner2.jpg',
-                'images/MOUGGAN/mouggan-banner3.jpg',
-                'images/MOUGGAN/mouggan-banner4.jpg',
-                'images/MOUGGAN/mouggan-banner5.jpg',
-                'images/MOUGGAN/mouggan-banner6.jpg',
-                'images/MOUGGAN/mouggan-web1.jpg',
-                'images/MOUGGAN/mouggan-web2.jpg',
-                'images/MOUGGAN/mouggan-web3.jpg',
-                'images/MOUGGAN/mouggan-web4.jpg',
-                'images/MOUGGAN/mouggan-web5.jpg'
-            ]
-        },
-        dogeast: {
-            images: [
-                'images/DOGEAST/DG_DROP1-1.jpg',
-                'images/DOGEAST/DG_DROP1-2.jpg',
-                'images/DOGEAST/DG_DROP1-3.jpg',
-                'images/DOGEAST/DG_DROP1-4.jpg',
-                'images/DOGEAST/DG_DROP1-5.jpg',
-                'images/DOGEAST/DG_DROP1-6.jpg',
-                'images/DOGEAST/DG_DROP1-7.jpg',
-                'images/DOGEAST/DG_DROP1-8.jpg',
-                'images/DOGEAST/DG_DROP1-9.jpg',
-                'images/DOGEAST/DG_DROP2-1.png',
-                'images/DOGEAST/DG_DROP2-2.png',
-                'images/DOGEAST/DG_DROP2-3.jpg',
-                'images/DOGEAST/DG_DROP2-4.jpg',
-                'images/DOGEAST/DG_DROP2-5.jpg',
-                'images/DOGEAST/DG_DROP2-6.jpg',
-                'images/DOGEAST/DG_DROP2-7.jpg',
-                'images/DOGEAST/DG_DROP2-8.jpg',
-                'images/DOGEAST/DG_DROP3-1.jpg',
-                'images/DOGEAST/DG_DROP3-2.jpg',
-                'images/DOGEAST/DG_DROP3-3.jpg',
-                'images/DOGEAST/DG_DROP3-4.jpg',
-                'images/DOGEAST/DG_DROP3-5.jpg',
-                'images/DOGEAST/DG_DROP3-6.jpg',
-                'images/DOGEAST/DG_DROP3-7.jpg',
-                'images/DOGEAST/DG_DROP3-8.jpg',
-                'images/DOGEAST/DG_DROP3-9.jpg',
-                'images/DOGEAST/DG_DROP4-1.jpg',
-                'images/DOGEAST/DG_DROP4-2.jpg',
-                'images/DOGEAST/DG_DROP4-3.jpg'
-            ]
+        function folderImages(folder, prefix, captions) {
+            return captions.map((caption, i) => ({
+                src: folder + '/' + prefix + (i + 1) + '.webp',
+                caption: caption
+            }));
         }
-    };
-    
-    function switchProject(projectName) {
-        const project = projects[projectName];
-        if (!project) return;
         
-        const slideshowWrapper = document.querySelector('.slideshow-wrapper');
-        if (slideshowWrapper) {
-            slideshowWrapper.innerHTML = '';
-            project.images.forEach((imageSrc, index) => {
-                const img = document.createElement('img');
-                img.src = imageSrc;
-                img.alt = `Slide ${index + 1}`;
-                img.className = 'slide';
-                img.onerror = function() {
-                    console.warn('Failed to load image:', imageSrc);
-                    this.style.display = 'none';
-                };
-                img.onload = function() {
-                    this.style.display = '';
-                };
-                if (index === 0) {
-                    img.classList.add('active');
+        const projects = {
+            midknight: {
+                desktop: [
+                    { src: 'desktop/images/midKnight/midknight1.webp', caption: 'Identity System' },
+                    { src: 'desktop/images/midKnight/midknight2.webp', caption: 'Editorial Portraits' },
+                    { src: 'desktop/images/midKnight/midknight2.3.webp', caption: 'Editorial campaign 01' },
+                    { src: 'desktop/images/midKnight/midknight2.4.webp', caption: 'Editorial campaign 02' },
+                    { src: 'desktop/images/midKnight/midknight2.5.webp', caption: 'Editorial campaign 03' },
+                    {
+                        stack: [
+                            'desktop/images/midKnight/midknight3.2.webp',
+                            'desktop/images/midKnight/midknight3.3.webp',
+                            'desktop/images/midKnight/midknight3.4.webp'
+                        ],
+                        caption: 'Community and social media'
+                    }
+                ],
+                mobile: [
+                    {
+                        stack: [
+                            'mobile/images/midknight/midknight1.1.webp',
+                            'mobile/images/midknight/midknight1.2.webp'
+                        ],
+                        caption: 'Visual Identity'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/midknight/midknight2.1.webp',
+                            'mobile/images/midknight/midknight2.2.webp'
+                        ],
+                        caption: 'Lookbook campaign 01'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/midknight/midknight3.1.webp'
+                        ],
+                        caption: 'Editorial campaign'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/midknight/midknight4.1.webp',
+                            'mobile/images/midknight/midknight4.2.webp'
+                        ],
+                        caption: 'Community and social media'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/midknight/midknight5.1.webp',
+                            'mobile/images/midknight/midknight5.2.webp',
+                            'mobile/images/midknight/midknight5.3.webp'
+                        ],
+                        caption: 'Look book campaign 02'
+                    }
+                ]
+            },
+            weitang: {
+                desktop: [
+                    {
+                        stack: [
+                            'desktop/images/weitang/weitang1.1.webp'
+                        ],
+                        caption: 'Identity System and logo wordmarks'
+                    },
+                    {
+                        stack: [
+                            'desktop/images/weitang/weitang1.2.webp'
+                        ],
+                        caption: 'Piazza Mascot'
+                    },
+                    {
+                        stack: [
+                            'desktop/images/weitang/weitang2.1.webp',
+                            'desktop/images/weitang/weitang2.2.webp'
+                        ],
+                        caption: 'Menu and packaging'
+                    },
+                    {
+                        stack: [
+                            'desktop/images/weitang/weitang3.1.webp',
+                            'desktop/images/weitang/weitang3.2.webp'
+                        ],
+                        caption: 'Advertisement campaign photoshoot'
+                    },
+                    {
+                        stack: [
+                            'desktop/images/weitang/weitang4.1.webp',
+                            'desktop/images/weitang/weitang4.2.webp',
+                            'desktop/images/weitang/weitang4.3.webp',
+                            'desktop/images/weitang/weitang4.4.webp'
+                        ],
+                        caption: 'Pizzeria Pop-up'
+                    }
+                ],
+                mobile: [
+                    {
+                        stack: [
+                            'mobile/images/weitang/weitang1.1.webp',
+                            'mobile/images/weitang/weitang1.2.webp',
+                            'mobile/images/weitang/weitang1.3.webp',
+                            'mobile/images/weitang/weitang1.4.webp',
+                            'mobile/images/weitang/weitang1.5.webp'
+                        ],
+                        caption: 'Identity System'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/weitang/weitang2.1.webp',
+                            'mobile/images/weitang/weitang2.2.webp',
+                            'mobile/images/weitang/weitang2.3.webp'
+                        ],
+                        caption: 'Menu and packaging'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/weitang/weitang3.1.webp',
+                            'mobile/images/weitang/weitang3.2.webp',
+                            'mobile/images/weitang/weitang3.3.webp',
+                            'mobile/images/weitang/weitang3.4.webp'
+                        ],
+                        caption: 'Advertisement campaign photoshoot'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/weitang/weitang4.1.webp',
+                            'mobile/images/weitang/weitang4.2.webp',
+                            'mobile/images/weitang/weitang4.3.webp',
+                            'mobile/images/weitang/weitang4.4.webp'
+                        ],
+                        caption: 'Pizzeria Pop-up'
+                    }
+                ]
+            },
+            dogeast: {
+                desktop: [
+                    { src: 'desktop/images/dogeast/dogeast1.1.webp', caption: 'Logo icon/wordmark' },
+                    { src: 'desktop/images/dogeast/dogeast1.2.webp', caption: 'Identity/lettering system' },
+                    { src: 'desktop/images/dogeast/dogeast1.3.webp', caption: 'Monthly playlist cover for Spotify' },
+                    { src: 'desktop/images/dogeast/dogeast1.4.webp', caption: 'Stickers' },
+                    { src: 'desktop/images/dogeast/dogeast1.5.webp', caption: 'Visual system' },
+                    {
+                        stack: [
+                            'desktop/images/dogeast/dogeast2.1.webp',
+                            'desktop/images/dogeast/dogeast2.2.webp',
+                            'desktop/images/dogeast/dogeast2.3.webp'
+                        ],
+                        caption: '2023 winter drop campaign'
+                    },
+                    {
+                        stack: [
+                            'desktop/images/dogeast/dogeast3.1.webp',
+                            'desktop/images/dogeast/dogeast3.2.webp',
+                            'desktop/images/dogeast/dogeast3.3.webp',
+                            'desktop/images/dogeast/dogeast3.1.webp',
+                            'desktop/images/dogeast/dogeast3.4.webp',
+                            'desktop/images/dogeast/dogeast3.5.webp'
+                        ],
+                        caption: '2024 summer drop campaign'
+                    },
+                    {
+                        stack: [
+                            'desktop/images/dogeast/dogeast4.1.webp',
+                            'desktop/images/dogeast/dogeast4.2.webp',
+                            'desktop/images/dogeast/dogeast4.3.webp',
+                            'desktop/images/dogeast/dogeast4.4.webp'
+                        ],
+                        caption: '2025 summer drop campaign'
+                    }
+                ],
+                mobile: [
+                    {
+                        stack: [
+                            'mobile/images/dogeast/dogeast1.1.webp',
+                            'mobile/images/dogeast/dogeast1.2.webp',
+                            'mobile/images/dogeast/dogeast1.3.webp'
+                        ],
+                        caption: 'Identity/lettering system'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/dogeast/dogeast2.1.webp',
+                            'mobile/images/dogeast/dogeast2.2.webp'
+                        ],
+                        caption: 'Monthly playlist cover for Spotify'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/dogeast/dogeast3.1.webp',
+                            'mobile/images/dogeast/dogeast3.2.webp',
+                            'mobile/images/dogeast/dogeast3.3.webp',
+                            'mobile/images/dogeast/dogeast3.4.webp'
+                        ],
+                        caption: '2023 winter drop campaign'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/dogeast/dogeast4.1.webp',
+                            'mobile/images/dogeast/dogeast4.2.webp',
+                            'mobile/images/dogeast/dogeast4.3.webp',
+                            'mobile/images/dogeast/dogeast4.4.webp'
+                        ],
+                        caption: '2024 summer drop campaign'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/dogeast/dogeast5.1.webp',
+                            'mobile/images/dogeast/dogeast5.2.webp',
+                            'mobile/images/dogeast/dogeast5.3.webp',
+                            'mobile/images/dogeast/dogeast5.4.webp',
+                            'mobile/images/dogeast/dogeast5.5.webp',
+                            'mobile/images/dogeast/dogeast5.6.webp'
+                        ],
+                        caption: '2025 summer drop campaign'
+                    },
+                    {
+                        stack: [
+                            'mobile/images/dogeast/dogeast6.1.webp',
+                            'mobile/images/dogeast/dogeast6.2.webp',
+                            'mobile/images/dogeast/dogeast6.3.webp'
+                        ],
+                        caption: 'Spray paint on wooden panel'
+                    }
+                ]
+            }
+        };
+        
+        const mobileQuery = window.matchMedia('(max-width: 900px)');
+        let currentProjectName = null;
+        
+        function getProjectImages(project) {
+            return mobileQuery.matches ? project.mobile : project.desktop;
+        }
+        
+        function renderGallery(projectName) {
+            const project = projects[projectName];
+            const gallery = document.querySelector('.project-gallery');
+            if (!project || !gallery) return;
+            
+            gallery.innerHTML = '';
+            getProjectImages(project).forEach((item, itemIndex) => {
+                const figure = document.createElement('figure');
+                figure.className = 'gallery-item';
+                
+                const caption = document.createElement('figcaption');
+                caption.textContent = item.caption;
+
+                figure.appendChild(caption);
+
+                if (Array.isArray(item.stack) && item.stack.length > 0) {
+                    const stack = document.createElement('div');
+                    stack.className = 'gallery-stack';
+
+                    item.stack.forEach((stackSrc, stackIndex) => {
+                        const stackedImg = document.createElement('img');
+                        stackedImg.src = stackSrc;
+                        stackedImg.alt = `${item.caption} ${stackIndex + 1}`;
+                        stackedImg.decoding = 'async';
+                        stackedImg.loading = itemIndex === 0 && stackIndex === 0 ? 'eager' : 'lazy';
+                        stackedImg.fetchPriority = itemIndex === 0 && stackIndex === 0 ? 'high' : 'auto';
+                        stackedImg.onerror = function() {
+                            console.warn('Failed to load image:', stackSrc);
+                            this.style.display = 'none';
+                        };
+                        stack.appendChild(stackedImg);
+                    });
+
+                    figure.appendChild(stack);
+                } else {
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    img.alt = item.caption;
+                    img.decoding = 'async';
+                    img.loading = itemIndex === 0 ? 'eager' : 'lazy';
+                    img.fetchPriority = itemIndex === 0 ? 'high' : 'auto';
+                    img.onerror = function() {
+                        console.warn('Failed to load image:', item.src);
+                        figure.style.display = 'none';
+                    };
+                    figure.appendChild(img);
                 }
-                slideshowWrapper.appendChild(img);
+
+                gallery.appendChild(figure);
             });
             
-            setTimeout(() => {
-                const slides = document.querySelectorAll('.slide');
-                if (slides.length > 0) {
-                    slides.forEach(slide => slide.classList.remove('active'));
-                    slides[0].classList.add('active');
-                }
-                // Reinitialize slideshow handlers
-                if (window.reinitSlideshow) {
-                    window.reinitSlideshow();
-                }
-            }, 100);
+            const scroller = document.querySelector('.column-top');
+            if (scroller) scroller.scrollTop = 0;
         }
         
-        document.querySelectorAll('.project-content').forEach(content => {
-            content.classList.toggle('active', content.dataset.project === projectName);
-        });
+        function switchProject(projectName) {
+            if (!projects[projectName]) return;
+            
+            currentProjectName = projectName;
+            renderGallery(projectName);
+            
+            if (mobileQuery.matches) {
+                window.scrollTo(0, 0);
+            }
+            
+            document.querySelectorAll('.project-content').forEach(content => {
+                content.classList.toggle('active', content.dataset.project === projectName);
+            });
+            
+            document.querySelectorAll('.right-column-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.project === projectName);
+            });
+        }
         
-        document.querySelectorAll('.right-column-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.dataset.project === projectName);
-        });
-    }
-    
         const params = new URLSearchParams(window.location.search);
         const projectFromUrl = params.get('project');
         const activeProjectBtn = document.querySelector('.right-column-btn.active');
-        const slideshowWrapper = document.querySelector('.slideshow-wrapper');
-
+        const gallery = document.querySelector('.project-gallery');
+        
         if (projectFromUrl && projects[projectFromUrl]) {
             switchProject(projectFromUrl);
         } else if (activeProjectBtn && activeProjectBtn.dataset.project) {
@@ -416,12 +392,24 @@
         
         document.querySelectorAll('.right-column-btn').forEach(link => {
             link.addEventListener('click', function(e) {
-                if (!this.dataset.project || !slideshowWrapper) return;
+                if (!this.dataset.project || !gallery) return;
                 e.preventDefault();
                 e.stopPropagation();
                 switchProject(this.dataset.project);
             });
         });
+        
+        const onViewportChange = function() {
+            if (currentProjectName && projects[currentProjectName]) {
+                renderGallery(currentProjectName);
+            }
+        };
+        
+        if (typeof mobileQuery.addEventListener === 'function') {
+            mobileQuery.addEventListener('change', onViewportChange);
+        } else if (typeof mobileQuery.addListener === 'function') {
+            mobileQuery.addListener(onViewportChange);
+        }
     }
     
     if (document.readyState === 'loading') {
@@ -506,10 +494,20 @@
     let galleryLastTouchTime = 0;
     let galleryTouchStartX = 0;
     let galleryTouchStartY = 0;
+    const mobileQuery = window.matchMedia('(max-width: 900px)');
+    
+    function getEnlargeableImage(target) {
+        const homeImg = target.closest('.gallery img');
+        if (homeImg) return homeImg;
+        if (mobileQuery.matches) {
+            return target.closest('.project-gallery img');
+        }
+        return null;
+    }
     
     // Track touch start for gallery images
     document.addEventListener('touchstart', function(e) {
-        const galleryImg = e.target.closest('.gallery img');
+        const galleryImg = getEnlargeableImage(e.target);
         if (galleryImg) {
             const touch = e.touches && e.touches[0];
             if (touch) {
@@ -525,7 +523,7 @@
         const timeSinceTouch = Date.now() - galleryLastTouchTime;
         if (timeSinceTouch < 300) return; // Ignore click if touch happened recently
         
-        const galleryImg = e.target.closest('.gallery img');
+        const galleryImg = getEnlargeableImage(e.target);
         if (galleryImg) {
             e.preventDefault();
             e.stopPropagation();
@@ -536,7 +534,7 @@
     
     // Touch support for mobile - gallery images
     document.addEventListener('touchend', function(e) {
-        const galleryImg = e.target.closest('.gallery img');
+        const galleryImg = getEnlargeableImage(e.target);
         if (galleryImg) {
             const touch = e.changedTouches && e.changedTouches[0];
             if (!touch) return;

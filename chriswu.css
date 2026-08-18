@@ -415,7 +415,7 @@ button,
     width: 100vw;
     height: calc(100vh - clamp(30px, 6vw, 90px));
     max-width: none;
-    padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px);
+    padding: clamp(20px, 4vw, 60px) clamp(10px, 1vw, 20px) 0 clamp(10px, 1vw, 20px);
     position: fixed;
     left: 0;
     margin-bottom: 0;
@@ -427,9 +427,23 @@ button,
 .column-top {
     width: 80%;
     height: 100%;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
     position: relative;
     order: 2;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(51, 51, 51, 0.25) transparent;
+}
+
+.column-top::-webkit-scrollbar {
+    width: 4px;
+}
+
+.column-top::-webkit-scrollbar-thumb {
+    background: rgba(51, 51, 51, 0.25);
+    border-radius: 999px;
 }
 
 .column-bottom {
@@ -445,111 +459,61 @@ button,
 }
 
 /* ============================================
-   SLIDESHOW
+   PROJECT GALLERY
    ============================================ */
-.slideshow-container {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    overflow: hidden;
-    cursor: pointer;
-    pointer-events: auto;
-}
-
-.slideshow-wrapper {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.slide {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    cursor: inherit;
-    transform: scale(0.95);
-    touch-action: none;
-    -webkit-user-select: none;
-    user-select: none;
-    pointer-events: none;
-}
-
-.slide.active {
-    opacity: 1;
-    z-index: 1;
-}
-
-.slide-nav {
-    position: absolute;
-    top: 0;
-    width: 50%;
-    height: 100%;
-    z-index: 10;
+.project-gallery {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease;
-    cursor: pointer;
-    pointer-events: auto;
+    gap: 25px;
+    width: 100%;
+    padding-bottom: 2em;
 }
 
-.slide-nav-left {
-    left: 0;
-    justify-content: flex-start;
-    padding-left: clamp(12px, 2vw, 28px);
-}
-
-.slide-nav-right {
-    right: 0;
-    justify-content: flex-end;
-    padding-right: clamp(12px, 2vw, 28px);
-}
-
-.slideshow-container:hover .slide-nav-left {
-    cursor: var(--cursor-left-arrow);
-}
-
-.slideshow-container:hover .slide-nav-right {
-    cursor: var(--cursor-right-arrow);
-}
-
-.nav-indicator {
+.gallery-item {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    width: clamp(28px, 4vw, 40px);
-    height: clamp(28px, 4vw, 40px);
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 0.45;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin: 0;
+    content-visibility: auto;
+    contain-intrinsic-size: 800px;
 }
 
-.nav-indicator::before {
-    content: '';
+.gallery-item figcaption {
+    font-family: 'Neue Haas Display Light', Arial, Helvetica, sans-serif;
+    font-size: 11px;
+    font-weight: 300;
+    color: #333;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    line-height: 1.2;
+    text-align: left;
+    margin: 0 0 4px 0;
+    padding: 0;
+}
+
+.gallery-item img {
     display: block;
-    width: clamp(10px, 1.5vw, 14px);
-    height: clamp(10px, 1.5vw, 14px);
-    border-top: 1.5px solid #333;
-    border-right: 1.5px solid #333;
+    width: 100%;
+    height: auto;
 }
 
-.slide-nav-left .nav-indicator::before {
-    transform: rotate(-135deg);
-    margin-left: 4px;
+.gallery-stack {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    line-height: 0;
+    font-size: 0;
 }
 
-.slide-nav-right .nav-indicator::before {
-    transform: rotate(45deg);
-    margin-right: 4px;
-}
-
-.slide-nav:hover .nav-indicator {
-    opacity: 1;
-    transform: scale(1.08);
+.gallery-stack img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin: 0;
+    padding: 0;
 }
 
 .slideshow-back-btn {
@@ -878,6 +842,19 @@ button,
 }
 
 @media (min-width: 901px) {
+    .gallery-item figcaption {
+        font-size: 13px;
+        padding-top: 12px;
+    }
+    
+    .project-logo {
+        padding-left: 2px;
+    }
+    
+    .project-gallery .gallery-item img {
+        width: 100%;
+    }
+    
     .navbar {
         justify-content: flex-start;
     }
@@ -953,12 +930,12 @@ button,
 
 @media (max-width: 900px) {
     body {
-        padding-top: clamp(56px, 12vw, 72px);
+        padding-top: clamp(40px, 9vw, 48px);
     }
     
     .navbar {
-        --navbar-height: clamp(56px, 14vw, 72px);
-        padding: 1.5vw 2vw;
+        --navbar-height: clamp(40px, 9vw, 48px);
+        padding: 0.6vw 2vw;
         position: fixed;
         top: 0;
         bottom: auto;
@@ -993,6 +970,15 @@ button,
         z-index: 1004;
         overflow: visible;
         flex-shrink: 0;
+        width: 36px;
+        height: 24px;
+    }
+    
+    .navbar-toggle .bar {
+        width: 20px;
+        height: 1.5px;
+        margin: 3px 0;
+        border-radius: 1px;
     }
     
     .navbar-email {
@@ -1016,12 +1002,12 @@ button,
         right: 0;
         left: auto;
         bottom: 0;
-        width: min(120px, 40vw);
+        width: min(220px, 62vw);
         height: 100vh;
         height: 100dvh;
         flex: none;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         justify-content: flex-start;
         gap: 1.2em;
         margin: 0;
@@ -1048,7 +1034,7 @@ button,
     .project-links {
         display: flex !important;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         width: 100%;
         gap: 1.4em;
         margin: 0;
@@ -1063,12 +1049,12 @@ button,
     }
     
     .navbar-links a:not(.menu-footer-link) {
-        text-align: left;
+        text-align: center;
         width: 100%;
         display: inline-block;
-        font-size: 1.2em;
-        padding-left: 1.25em !important;
-        padding-inline-start: 1.25em !important;
+        font-size: 1.55em;
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
     }
     
     .menu-footer {
@@ -1128,6 +1114,17 @@ button,
         text-transform: none;
     }
     
+    .gallery-item figcaption {
+        font-size: 12px;
+    }
+    
+    .project-gallery .gallery-item img {
+        cursor: var(--cursor-hover);
+        pointer-events: auto;
+        -webkit-tap-highlight-color: rgba(0, 255, 47, 0.2);
+        touch-action: manipulation;
+    }
+    
     .right-column-btn {
         pointer-events: auto !important;
         -webkit-tap-highlight-color: rgba(0, 255, 47, 0.2);
@@ -1138,40 +1135,6 @@ button,
         pointer-events: auto !important;
         -webkit-tap-highlight-color: rgba(0, 255, 47, 0.2);
         touch-action: manipulation;
-    }
-    
-    .slide-nav {
-        pointer-events: auto !important;
-        opacity: 1;
-        visibility: visible;
-        z-index: 10;
-        touch-action: manipulation;
-        -webkit-tap-highlight-color: transparent;
-    }
-    
-    .slide-nav-left {
-        padding-left: 0;
-    }
-    
-    .slide-nav-right {
-        padding-right: 0;
-    }
-    
-    .slide-nav-left .nav-indicator::before {
-        margin-left: 0;
-    }
-    
-    .slide-nav-right .nav-indicator::before {
-        margin-right: 0;
-    }
-    
-    .nav-indicator {
-        opacity: 0.55;
-    }
-    
-    .slide-nav:active .nav-indicator,
-    .slide-nav:hover .nav-indicator {
-        opacity: 1;
     }
     
     .gallery {
@@ -1231,22 +1194,23 @@ button,
 
 @media (max-width: 600px) {
     body {
-        padding-top: clamp(60px, 12vw, 80px);
+        padding-top: clamp(40px, 9vw, 48px);
         padding-bottom: clamp(36px, 8vw, 48px);
     }
     
     .navbar {
-        padding: 2vw 3vw;
+        padding: 0.6vw 3vw;
     }
     
     .navbar-links a:not(.menu-footer-link) {
-        font-size: 1.3em;
+        font-size: 1.7em;
+        text-align: center;
     }
     
     .right-column-btn {
-        font-size: 1.3em !important;
-        padding-left: 1.25em !important;
-        padding-inline-start: 1.25em !important;
+        font-size: 1.7em !important;
+        padding-left: 0 !important;
+        padding-inline-start: 0 !important;
         position: relative;
         z-index: 1;
     }
@@ -1273,52 +1237,26 @@ button,
         position: relative;
         height: auto;
         min-height: 70vh;
-        padding: 5vw 3vw clamp(80px, 15vw, 100px) 3vw;
+        padding: 5vw 3vw 0 3vw;
         flex-direction: column;
     }
     
     .column-top {
         width: 100%;
-        padding-top: 5vh;
-        height: 70vh;
+        padding-top: 2em;
+        height: auto;
+        overflow: visible;
         order: 2;
         display: block;
     }
     
-    .slideshow-container {
-        height: 100%;
-        display: flex;
-        align-items: flex-start;
-        position: relative;
-        pointer-events: auto !important;
-        cursor: pointer;
-        -webkit-tap-highlight-color: transparent;
-        touch-action: manipulation;
-        overflow: hidden;
+    .project-gallery {
+        gap: 20px;
+        padding-bottom: 1em;
     }
     
-    .slide {
-        pointer-events: none;
-        object-position: top;
-        top: 0;
-    }
-    
-    .nav-indicator {
-        width: 32px;
-        height: 32px;
-        opacity: 0.6;
-    }
-    
-    .nav-indicator::before {
-        width: 11px;
-        height: 11px;
-        border-width: 2px;
-    }
-    
-    .slideshow-wrapper {
-        height: 100%;
-        display: flex;
-        align-items: center;
+    .gallery-item figcaption {
+        font-size: 12px;
     }
     
     .column-bottom {
