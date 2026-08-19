@@ -566,8 +566,8 @@
 (function() {
     'use strict';
     
-    const POSTER_VERSION = '20260819';
-    const posterImages = Array.from({ length: 40 }, (_, i) => `images/poster/Poster-${i + 1}.jpg?v=${POSTER_VERSION}`);
+    const POSTER_VERSION = '20260819b';
+    const posterImages = Array.from({ length: 43 }, (_, i) => `images/poster/Poster-${i + 1}.jpg?v=${POSTER_VERSION}`);
     
     function shuffleGallery() {
         const gallery = document.querySelector('.gallery');
