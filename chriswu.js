@@ -566,20 +566,20 @@
 (function() {
     'use strict';
     
-    const posterImages = Array.from({ length: 40 }, (_, i) => `images/poster/Poster-${i + 1}.jpg`);
+    const POSTER_VERSION = '20260819';
+    const posterImages = Array.from({ length: 40 }, (_, i) => `images/poster/Poster-${i + 1}.jpg?v=${POSTER_VERSION}`);
     
     function shuffleGallery() {
         const gallery = document.querySelector('.gallery');
         if (!gallery) return;
         
-        if (gallery.children.length === 0) {
-            posterImages.forEach((src, index) => {
-                const img = document.createElement('img');
-                img.src = src;
-                img.alt = `Poster ${index + 1}`;
-                gallery.appendChild(img);
-            });
-        }
+        gallery.innerHTML = '';
+        posterImages.forEach((src, index) => {
+            const img = document.createElement('img');
+            img.src = src;
+            img.alt = `Poster ${index + 1}`;
+            gallery.appendChild(img);
+        });
         
         const images = Array.from(gallery.querySelectorAll('img'));
         if (images.length < 2) return;
