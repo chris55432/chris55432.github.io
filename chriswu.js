@@ -566,7 +566,7 @@
 (function() {
     'use strict';
     
-    const posterImages = Array.from({ length: 38 }, (_, i) => `images/poster/Poster-${i + 1}.jpg`);
+    const posterImages = Array.from({ length: 40 }, (_, i) => `images/poster/Poster-${i + 1}.jpg`);
     
     function shuffleGallery() {
         const gallery = document.querySelector('.gallery');
