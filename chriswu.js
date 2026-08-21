@@ -566,30 +566,38 @@
 (function() {
     'use strict';
     
-    const POSTER_VERSION = '20260819b';
-    const posterImages = Array.from({ length: 43 }, (_, i) => `images/poster/Poster-${i + 1}.jpg?v=${POSTER_VERSION}`);
+    const POSTER_VERSION = '20260821';
+    const POSTER_COUNT = 43;
+    const ABOVE_FOLD = 8;
+    const posterImages = Array.from({ length: POSTER_COUNT }, (_, i) =>
+        `images/poster/Poster-${i + 1}.webp?v=${POSTER_VERSION}`
+    );
     
     function shuffleGallery() {
         const gallery = document.querySelector('.gallery');
         if (!gallery) return;
         
-        gallery.innerHTML = '';
-        posterImages.forEach((src, index) => {
-            const img = document.createElement('img');
-            img.src = src;
-            img.alt = `Poster ${index + 1}`;
-            gallery.appendChild(img);
-        });
-        
-        const images = Array.from(gallery.querySelectorAll('img'));
-        if (images.length < 2) return;
-        
-        for (let i = images.length - 1; i > 0; i--) {
+        const order = posterImages.map((_, i) => i);
+        for (let i = order.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
-            [images[i], images[j]] = [images[j], images[i]];
+            [order[i], order[j]] = [order[j], order[i]];
         }
         
-        images.forEach(img => gallery.appendChild(img));
+        gallery.innerHTML = '';
+        order.forEach((posterIndex, displayIndex) => {
+            const img = document.createElement('img');
+            img.src = posterImages[posterIndex];
+            img.alt = `Poster ${posterIndex + 1}`;
+            img.decoding = 'async';
+            if (displayIndex < ABOVE_FOLD) {
+                img.loading = 'eager';
+                img.fetchPriority = 'high';
+            } else {
+                img.loading = 'lazy';
+                img.fetchPriority = 'low';
+            }
+            gallery.appendChild(img);
+        });
     }
     
     if (document.readyState === 'loading') {
