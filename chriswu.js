@@ -566,8 +566,8 @@
 (function() {
     'use strict';
     
-    const POSTER_VERSION = '20260821';
-    const POSTER_COUNT = 43;
+    const POSTER_VERSION = '20260821b';
+    const POSTER_COUNT = 45;
     const ABOVE_FOLD = 8;
     const posterImages = Array.from({ length: POSTER_COUNT }, (_, i) =>
         `images/poster/Poster-${i + 1}.webp?v=${POSTER_VERSION}`
