@@ -561,7 +561,7 @@
 })();
 
 // ============================================
-// GALLERY SHUFFLE
+// GALLERY SHUFFLE (POSTERS)
 // ============================================
 (function() {
     'use strict';
@@ -574,7 +574,7 @@
     );
     
     function shuffleGallery() {
-        const gallery = document.querySelector('.gallery');
+        const gallery = document.querySelector('.posters-page .gallery');
         if (!gallery) return;
         
         const order = posterImages.map((_, i) => i);
